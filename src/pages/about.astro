@@ -1,62 +1,271 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+const values = [
+	{
+		title: 'Plain English, always',
+		description:
+			'You’ll never leave a meeting more confused than when you arrived. Every return, every plan, every letter gets explained in words that make sense.',
+	},
+	{
+		title: 'Year-round, not just April',
+		description:
+			'The best tax outcomes happen in June, September, and December — not the week before the deadline. Evin stays available all year.',
+	},
+	{
+		title: 'Local and personal',
+		description:
+			'No call centers and no handoffs. You work directly with Evin, a neighbor here in the Dallas–Fort Worth metroplex.',
+	},
+	{
+		title: 'Careful, honest work',
+		description:
+			'Every deduction you’re entitled to — and nothing you’re not. Returns prepared thoroughly, filed on time, and backed up if questions come.',
+	},
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage="/blog-placeholder-about.jpg"
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`About Evin Basher | ${SITE_TITLE}`}
+			description="Meet Evin Basher, the tax professional behind EB Tax Solutions — serving individuals and small businesses across the Dallas–Fort Worth area."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- Page header -->
+			<section class="page-header">
+				<div class="container">
+					<p class="eyebrow">About EB Tax Solutions</p>
+					<h1>The person behind <em>your return.</em></h1>
+					<p class="lede">
+						Taxes are personal. The person preparing them should be too.
+					</p>
+				</div>
+			</section>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+			<!-- Bio -->
+			<section class="bio">
+				<div class="container bio-grid">
+					<div class="bio-mark" aria-hidden="true">EB</div>
+					<div>
+						<h2>Meet Evin Basher</h2>
+						<p>
+							Evin Basher is a tax professional based in the Dallas–Fort Worth
+							metroplex, working with individuals, families, freelancers, and
+							small business owners across the area. His clients range from
+							first-time filers to established businesses with payroll,
+							contractors, and quarterly estimates to juggle.
+						</p>
+						<p>
+							What they have in common: they’d rather spend their time on
+							anything other than taxes. That’s where Evin comes in. He takes
+							the pile of documents, the IRS letter, or the “I think I’ve been
+							doing this wrong” worry — and turns it into a clear plan and a
+							correctly filed return.
+						</p>
+						<p>
+							Evin started EB Tax Solutions because he saw too many neighbors
+							overpaying at big-box chains and getting a different preparer
+							every year. Here, you get the same person every season — someone
+							who knows your situation, remembers last year, and is already
+							thinking about next year.
+						</p>
+					</div>
+				</div>
+			</section>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+			<!-- Values -->
+			<section class="values">
+				<div class="container">
+					<p class="eyebrow dark">How Evin works</p>
+					<h2>What you can expect</h2>
+					<div class="value-grid">
+						{
+							values.map((value) => (
+								<article class="value-card">
+									<h3>{value.title}</h3>
+									<p>{value.description}</p>
+								</article>
+							))
+						}
+					</div>
+				</div>
+			</section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+			<!-- CTA -->
+			<section class="cta-band">
+				<div class="container">
+					<h2>Let’s put taxes in good hands.</h2>
+					<p class="cta-lede">
+						Start with a free consultation — no pressure, no jargon.
+					</p>
+					<a class="btn btn-light" href="/contact">Get in touch</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+<style>
+	main {
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+	.container {
+		max-width: 72rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+	section {
+		padding: 6rem 0;
+	}
+	h2 {
+		font-size: clamp(2rem, 4vw, 2.75rem);
+		margin-bottom: 1rem;
+	}
+	.eyebrow {
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: #9a9da3;
+		margin: 0 0 1.25rem;
+	}
+	.eyebrow.dark {
+		color: var(--color-muted);
+	}
+	.btn {
+		display: inline-block;
+		font-size: 1rem;
+		font-weight: 700;
+		text-decoration: none;
+		padding: 0.85rem 1.75rem;
+		border-radius: 999px;
+		transition:
+			background 0.15s ease,
+			color 0.15s ease;
+	}
+	.btn-light {
+		background: #fff;
+		color: var(--color-ink);
+	}
+	.btn-light:hover {
+		background: #d9dadd;
+		color: var(--color-ink);
+	}
+
+	/* Page header */
+	.page-header {
+		background: var(--color-ink);
+		color: #c7c9cc;
+		padding: 6rem 0;
+	}
+	.page-header h1 {
+		font-size: clamp(2.5rem, 5.5vw, 4rem);
+		color: #fff;
+		margin-bottom: 1rem;
+	}
+	.page-header h1 em {
+		color: #9a9da3;
+	}
+	.lede {
+		max-width: 36rem;
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	/* Bio */
+	.bio-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+		gap: 4rem;
+		align-items: start;
+	}
+	.bio-mark {
+		aspect-ratio: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-ink);
+		color: #fff;
+		font-family: var(--font-display);
+		font-size: clamp(4rem, 9vw, 7rem);
+		border-radius: 16px;
+		position: sticky;
+		top: 6rem;
+	}
+	.bio p {
+		font-size: 1.05rem;
+	}
+
+	/* Values */
+	.values {
+		background: var(--color-surface);
+		border-top: 1px solid var(--color-line);
+		border-bottom: 1px solid var(--color-line);
+	}
+	.value-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+		margin-top: 2.5rem;
+	}
+	.value-card {
+		background: #fff;
+		border: 1px solid var(--color-line);
+		border-radius: 12px;
+		padding: 2rem;
+	}
+	.value-card h3 {
+		font-size: 1.35rem;
+		margin-bottom: 0.75rem;
+	}
+	.value-card p {
+		font-size: 0.98rem;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	/* CTA band */
+	.cta-band {
+		background: var(--color-ink);
+		color: #c7c9cc;
+		text-align: center;
+	}
+	.cta-band h2 {
+		color: #fff;
+	}
+	.cta-lede {
+		margin: 0 0 2rem;
+		font-size: 1.1rem;
+	}
+
+	@media (max-width: 900px) {
+		.bio-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5rem;
+		}
+		.bio-mark {
+			max-width: 16rem;
+			position: static;
+		}
+	}
+	@media (max-width: 720px) {
+		section {
+			padding: 4rem 0;
+		}
+		.value-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,300 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {
+	SITE_TITLE,
+	CONTACT_PHONE,
+	CONTACT_PHONE_HREF,
+	CONTACT_EMAIL,
+} from '../consts';
+
+const serviceOptions = [
+	'Individual tax preparation',
+	'Small business / self-employed',
+	'Tax planning & strategy',
+	'IRS letter or back taxes',
+	'Quarterly estimated taxes',
+	'Amendment or prior-year return',
+	'Something else',
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Contact | ${SITE_TITLE}`}
+			description="Get in touch with Evin Basher at EB Tax Solutions for a free tax consultation in the Dallas–Fort Worth area."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- Page header -->
+			<section class="page-header">
+				<div class="container">
+					<p class="eyebrow">Contact</p>
+					<h1>Let’s talk <em>taxes.</em></h1>
+					<p class="lede">
+						Tell Evin a little about your situation and he’ll get back to you
+						with exactly how he can help. Consultations are free.
+					</p>
+				</div>
+			</section>
+
+			<!-- Contact info + form -->
+			<section class="contact-body">
+				<div class="container contact-grid">
+					<div class="contact-info">
+						<h2>Get in touch</h2>
+						<p>
+							Prefer to just pick up the phone or send an email? That works
+							too.
+						</p>
+						<div class="info-item">
+							<p class="info-label">Phone</p>
+							<a href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
+						</div>
+						<div class="info-item">
+							<p class="info-label">Email</p>
+							<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+						</div>
+						<div class="info-item">
+							<p class="info-label">Location</p>
+							<p class="info-value">
+								Dallas–Fort Worth, Texas<br />
+								In-person and virtual appointments available
+							</p>
+						</div>
+					</div>
+
+					<form class="contact-form" id="contact-form" novalidate>
+						<div class="field-row">
+							<div class="field">
+								<label for="name">Full name</label>
+								<input type="text" id="name" name="name" required autocomplete="name" />
+							</div>
+							<div class="field">
+								<label for="phone">Phone</label>
+								<input type="tel" id="phone" name="phone" autocomplete="tel" />
+							</div>
+						</div>
+						<div class="field">
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email" required autocomplete="email" />
+						</div>
+						<div class="field">
+							<label for="service">What do you need help with?</label>
+							<select id="service" name="service">
+								{serviceOptions.map((option) => <option>{option}</option>)}
+							</select>
+						</div>
+						<div class="field">
+							<label for="message">Tell us a bit about your situation</label>
+							<textarea id="message" name="message" rows="5"></textarea>
+						</div>
+						<button type="submit" class="btn btn-dark">Send message</button>
+						<p class="form-success" id="form-success" hidden>
+							Thanks! Your message is on its way — Evin will get back to you
+							within one business day.
+						</p>
+					</form>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			// Dummy form: no backend is wired up yet. Swallow the submit and
+			// show the success message so the flow can be demoed end to end.
+			const form = document.getElementById('contact-form') as HTMLFormElement;
+			const success = document.getElementById('form-success')!;
+			form.addEventListener('submit', (event) => {
+				event.preventDefault();
+				if (!form.reportValidity()) return;
+				form.reset();
+				success.hidden = false;
+			});
+		</script>
+	</body>
+</html>
+
+<style>
+	main {
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+	.container {
+		max-width: 72rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+	.eyebrow {
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: #9a9da3;
+		margin: 0 0 1.25rem;
+	}
+
+	/* Page header */
+	.page-header {
+		background: var(--color-ink);
+		color: #c7c9cc;
+		padding: 6rem 0;
+	}
+	.page-header h1 {
+		font-size: clamp(2.5rem, 5.5vw, 4rem);
+		color: #fff;
+		margin-bottom: 1rem;
+	}
+	.page-header h1 em {
+		color: #9a9da3;
+	}
+	.lede {
+		max-width: 36rem;
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	/* Layout */
+	.contact-body {
+		padding: 6rem 0;
+	}
+	.contact-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+		gap: 4rem;
+		align-items: start;
+	}
+
+	/* Info column */
+	.contact-info h2 {
+		font-size: clamp(1.75rem, 3vw, 2.25rem);
+		margin-bottom: 0.75rem;
+	}
+	.contact-info > p {
+		color: var(--color-muted);
+		margin-bottom: 2.5rem;
+	}
+	.info-item {
+		padding: 1.25rem 0;
+		border-top: 1px solid var(--color-line);
+	}
+	.info-label {
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-muted);
+		margin: 0 0 0.35rem;
+	}
+	.info-item a {
+		font-size: 1.1rem;
+		font-weight: 500;
+		text-decoration: none;
+	}
+	.info-item a:hover {
+		text-decoration: underline;
+	}
+	.info-value {
+		margin: 0;
+		font-size: 1rem;
+	}
+
+	/* Form */
+	.contact-form {
+		background: var(--color-surface);
+		border: 1px solid var(--color-line);
+		border-radius: 16px;
+		padding: 2.5rem;
+	}
+	.field-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.25rem;
+	}
+	.field {
+		margin-bottom: 1.25rem;
+	}
+	label {
+		display: block;
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: var(--color-ink);
+		margin-bottom: 0.4rem;
+	}
+	input,
+	select,
+	textarea {
+		width: 100%;
+		box-sizing: border-box;
+		font-family: var(--font-body);
+		font-size: 1rem;
+		color: var(--color-ink);
+		background: #fff;
+		border: 1px solid var(--color-line);
+		border-radius: 8px;
+		padding: 0.7rem 0.9rem;
+	}
+	textarea {
+		resize: vertical;
+	}
+	input:focus,
+	select:focus,
+	textarea:focus {
+		outline: 2px solid var(--color-ink);
+		outline-offset: 1px;
+		border-color: var(--color-ink);
+	}
+	.btn {
+		display: inline-block;
+		font-size: 1rem;
+		font-weight: 700;
+		border: none;
+		cursor: pointer;
+		text-decoration: none;
+		padding: 0.85rem 1.75rem;
+		border-radius: 999px;
+		transition: background 0.15s ease;
+	}
+	.btn-dark {
+		background: var(--color-ink);
+		color: #fff;
+	}
+	.btn-dark:hover {
+		background: #2a2b2e;
+	}
+	.form-success {
+		margin: 1.25rem 0 0;
+		padding: 0.9rem 1.1rem;
+		background: #fff;
+		border: 1px solid var(--color-ink);
+		border-radius: 8px;
+		font-weight: 500;
+		color: var(--color-ink);
+	}
+
+	@media (max-width: 900px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+	}
+	@media (max-width: 720px) {
+		.contact-body,
+		.page-header {
+			padding: 4rem 0;
+		}
+		.contact-form {
+			padding: 1.5rem;
+		}
+		.field-row {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
