@@ -2,7 +2,79 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import {
+	SITE_TITLE,
+	SITE_DESCRIPTION,
+	CONTACT_PHONE,
+	CONTACT_PHONE_HREF,
+	CONTACT_EMAIL,
+} from '../consts';
+
+const services = [
+	{
+		title: 'Individual Tax Preparation',
+		description:
+			'Accurate, on-time federal returns for individuals and families — with every credit and deduction you qualify for.',
+	},
+	{
+		title: 'Small Business & Self-Employed',
+		description:
+			'Returns and guidance for sole proprietors, contractors, LLCs, and S corps, from Schedule C to payroll questions.',
+	},
+	{
+		title: 'Tax Planning & Strategy',
+		description:
+			'Year-round planning that looks ahead — so decisions about income, retirement, and investments are made before the deadline, not after.',
+	},
+	{
+		title: 'IRS Letters & Back Taxes',
+		description:
+			'Received a notice? Behind on filings? Get a clear plan to respond, catch up, and put the stress behind you.',
+	},
+	{
+		title: 'Quarterly Estimated Taxes',
+		description:
+			'Right-sized quarterly payments for freelancers and business owners — no surprises in April, no overpaying all year.',
+	},
+	{
+		title: 'Amendments & Prior-Year Returns',
+		description:
+			'Missed a deduction or need to fix a past return? Prior-year filings and amendments handled carefully and completely.',
+	},
+];
+
+const steps = [
+	{
+		title: 'Talk it through',
+		description:
+			'Start with a free, no-pressure consultation. Bring your questions and last year’s return — we’ll map out what you need.',
+	},
+	{
+		title: 'Hand it off',
+		description:
+			'Send your documents in person or securely online. Evin prepares everything and walks you through it in plain English.',
+	},
+	{
+		title: 'File with confidence',
+		description:
+			'Review, sign, and file. Then get year-round support — if the IRS ever has questions, you won’t face them alone.',
+	},
+];
+
+const cities = [
+	'Dallas',
+	'Fort Worth',
+	'Arlington',
+	'Plano',
+	'Irving',
+	'Frisco',
+	'McKinney',
+	'Grand Prairie',
+	'Garland',
+	'Denton',
+	'Richardson',
+	'Carrollton',
+];
 ---
 
 <!doctype html>
@@ -13,38 +85,423 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<!-- Hero -->
+			<section class="hero">
+				<div class="container">
+					<p class="eyebrow">Dallas–Fort Worth tax services</p>
+					<h1>
+						Taxes, handled.<br />
+						<em>Right here in DFW.</em>
+					</h1>
+					<p class="lede">
+						Evin Basher helps individuals and small businesses across the
+						Dallas–Fort Worth metroplex file with confidence, plan ahead, and
+						keep more of what they earn.
+					</p>
+					<div class="hero-actions">
+						<a class="btn btn-light" href="#contact">Schedule a consultation</a>
+						<a class="btn btn-ghost" href="#services">View services</a>
+					</div>
+					<ul class="hero-points">
+						<li>Individuals &amp; small businesses</li>
+						<li>Year-round support</li>
+						<li>Local to Dallas–Fort Worth</li>
+					</ul>
+				</div>
+			</section>
+
+			<!-- Services -->
+			<section class="services" id="services">
+				<div class="container">
+					<p class="eyebrow dark">What we do</p>
+					<h2>Services built around your situation</h2>
+					<p class="section-lede">
+						Whether it’s a straightforward return or a business with moving
+						parts, you get the same thing: careful work, clear answers, and no
+						jargon.
+					</p>
+					<div class="service-grid">
+						{
+							services.map((service, i) => (
+								<article class="service-card">
+									<span class="service-index">
+										{String(i + 1).padStart(2, '0')}
+									</span>
+									<h3>{service.title}</h3>
+									<p>{service.description}</p>
+								</article>
+							))
+						}
+					</div>
+				</div>
+			</section>
+
+			<!-- About -->
+			<section class="about" id="about">
+				<div class="container about-grid">
+					<div class="about-mark" aria-hidden="true">EB</div>
+					<div>
+						<p class="eyebrow dark">Meet your tax expert</p>
+						<h2>Evin Basher</h2>
+						<p>
+							Evin is a Dallas–Fort Worth tax professional who believes taxes
+							shouldn’t feel like a black box. Clients come to him with a
+							shoebox of receipts, an IRS letter, or a growing business — and
+							leave with a clear plan and a return they understand.
+						</p>
+						<p>
+							No call centers, no handoffs, no once-a-year strangers. When you
+							work with EB Tax Solutions, you work directly with Evin — this tax
+							season and every one after it.
+						</p>
+						<a class="btn btn-dark" href="#contact">Work with Evin</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Process -->
+			<section class="process">
+				<div class="container">
+					<p class="eyebrow dark">How it works</p>
+					<h2>Simple from start to filed</h2>
+					<ol class="steps">
+						{
+							steps.map((step, i) => (
+								<li>
+									<span class="step-number">{i + 1}</span>
+									<h3>{step.title}</h3>
+									<p>{step.description}</p>
+								</li>
+							))
+						}
+					</ol>
+				</div>
+			</section>
+
+			<!-- Service area -->
+			<section class="service-area" id="service-area">
+				<div class="container">
+					<p class="eyebrow dark">Where we work</p>
+					<h2>Proudly serving the metroplex</h2>
+					<p class="section-lede">
+						Based in Dallas–Fort Worth and happy to meet in person — or handle
+						everything virtually if that’s easier for you.
+					</p>
+					<ul class="city-list">
+						{cities.map((city) => <li>{city}</li>)}
+					</ul>
+					<p class="area-note">…and everywhere in between.</p>
+				</div>
+			</section>
+
+			<!-- Contact / CTA -->
+			<section class="contact" id="contact">
+				<div class="container">
+					<h2>Ready to take taxes off your plate?</h2>
+					<p class="contact-lede">
+						Reach out for a free consultation. Tell Evin a little about your
+						situation and he’ll tell you exactly how he can help.
+					</p>
+					<div class="contact-actions">
+						<a class="btn btn-light" href={CONTACT_PHONE_HREF}>
+							Call {CONTACT_PHONE}
+						</a>
+						<a class="btn btn-ghost" href={`mailto:${CONTACT_EMAIL}`}>
+							{CONTACT_EMAIL}
+						</a>
+					</div>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+	.container {
+		max-width: 72rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+	section {
+		padding: 6rem 0;
+	}
+	h2 {
+		font-size: clamp(2rem, 4vw, 2.75rem);
+		margin-bottom: 1rem;
+	}
+	.eyebrow {
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: #9a9da3;
+		margin: 0 0 1.25rem;
+	}
+	.eyebrow.dark {
+		color: var(--color-muted);
+	}
+	.section-lede {
+		max-width: 38rem;
+		font-size: 1.1rem;
+		color: var(--color-muted);
+		margin: 0 0 3rem;
+	}
+
+	/* Buttons */
+	.btn {
+		display: inline-block;
+		font-family: var(--font-body);
+		font-size: 1rem;
+		font-weight: 700;
+		text-decoration: none;
+		padding: 0.85rem 1.75rem;
+		border-radius: 999px;
+		transition:
+			background 0.15s ease,
+			color 0.15s ease,
+			border-color 0.15s ease;
+	}
+	.btn-light {
+		background: #fff;
+		color: var(--color-ink);
+	}
+	.btn-light:hover {
+		background: #d9dadd;
+		color: var(--color-ink);
+	}
+	.btn-ghost {
+		color: #fff;
+		border: 1px solid rgba(255, 255, 255, 0.4);
+	}
+	.btn-ghost:hover {
+		color: #fff;
+		border-color: #fff;
+	}
+	.btn-dark {
+		background: var(--color-ink);
+		color: #fff;
+	}
+	.btn-dark:hover {
+		background: #2a2b2e;
+		color: #fff;
+	}
+
+	/* Hero */
+	.hero {
+		background: var(--color-ink);
+		color: #c7c9cc;
+		padding: 8rem 0;
+	}
+	.hero h1 {
+		font-size: clamp(2.75rem, 6.5vw, 4.75rem);
+		color: #fff;
+		margin-bottom: 1.5rem;
+	}
+	.hero h1 em {
+		color: #9a9da3;
+	}
+	.lede {
+		max-width: 36rem;
+		font-size: 1.2rem;
+		margin: 0 0 2.5rem;
+	}
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-bottom: 3.5rem;
+	}
+	.hero-points {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 2rem;
+		list-style: none;
+		margin: 0;
+		padding: 1.5rem 0 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
+		font-size: 0.95rem;
+		font-weight: 500;
+	}
+	.hero-points li::before {
+		content: '—';
+		margin-right: 0.6rem;
+		color: #6e7278;
+	}
+
+	/* Services */
+	.service-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
+	}
+	.service-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-line);
+		border-radius: 12px;
+		padding: 2rem;
+		transition: border-color 0.15s ease;
+	}
+	.service-card:hover {
+		border-color: var(--color-ink);
+	}
+	.service-index {
+		display: block;
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		color: #9a9da3;
+		margin-bottom: 1.25rem;
+	}
+	.service-card h3 {
+		font-size: 1.35rem;
+		margin-bottom: 0.75rem;
+	}
+	.service-card p {
+		font-size: 0.98rem;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	/* About */
+	.about {
+		background: var(--color-surface);
+		border-top: 1px solid var(--color-line);
+		border-bottom: 1px solid var(--color-line);
+	}
+	.about-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+		gap: 4rem;
+		align-items: center;
+	}
+	.about-mark {
+		aspect-ratio: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-ink);
+		color: #fff;
+		font-family: var(--font-display);
+		font-size: clamp(4rem, 9vw, 7rem);
+		border-radius: 16px;
+	}
+	.about p {
+		font-size: 1.05rem;
+	}
+	.about .btn {
+		margin-top: 0.75rem;
+	}
+
+	/* Process */
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2.5rem;
+		list-style: none;
+		margin: 3rem 0 0;
+		padding: 0;
+		counter-reset: step;
+	}
+	.steps li {
+		border-top: 2px solid var(--color-ink);
+		padding-top: 1.5rem;
+	}
+	.step-number {
+		display: block;
+		font-family: var(--font-display);
+		font-size: 2rem;
+		color: #9a9da3;
+		margin-bottom: 0.75rem;
+	}
+	.steps h3 {
+		font-size: 1.35rem;
+		margin-bottom: 0.5rem;
+	}
+	.steps p {
+		font-size: 0.98rem;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	/* Service area */
+	.service-area {
+		background: var(--color-surface);
+		border-top: 1px solid var(--color-line);
+		border-bottom: 1px solid var(--color-line);
+	}
+	.city-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.city-list li {
+		background: #fff;
+		border: 1px solid var(--color-line);
+		border-radius: 999px;
+		padding: 0.5rem 1.25rem;
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--color-ink);
+	}
+	.area-note {
+		margin: 1.5rem 0 0;
+		font-style: italic;
+		color: var(--color-muted);
+	}
+
+	/* Contact */
+	.contact {
+		background: var(--color-ink);
+		color: #c7c9cc;
+		text-align: center;
+		padding: 7rem 0;
+	}
+	.contact h2 {
+		color: #fff;
+	}
+	.contact-lede {
+		max-width: 34rem;
+		margin: 0 auto 2.5rem;
+		font-size: 1.1rem;
+	}
+	.contact-actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	@media (max-width: 900px) {
+		.service-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.about-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5rem;
+		}
+		.about-mark {
+			max-width: 16rem;
+		}
+	}
+	@media (max-width: 720px) {
+		section {
+			padding: 4rem 0;
+		}
+		.hero {
+			padding: 5rem 0;
+		}
+		.service-grid,
+		.steps {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
