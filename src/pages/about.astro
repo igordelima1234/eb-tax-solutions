@@ -53,7 +53,13 @@ const values = [
 			<!-- Bio -->
 			<section class="bio">
 				<div class="container bio-grid">
-					<div class="bio-mark" aria-hidden="true">EB</div>
+					<img
+						class="bio-photo"
+						src="/images/evin-standing.jpg"
+						alt="Evin Basher, founder of EB Tax Solutions"
+						width="1200"
+						height="1800"
+					/>
 					<div>
 						<h2>Meet Evin Basher: your tax advocate</h2>
 						<p>
@@ -193,15 +199,10 @@ const values = [
 		gap: 4rem;
 		align-items: start;
 	}
-	.bio-mark {
-		aspect-ratio: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: var(--color-ink);
-		color: #fff;
-		font-family: var(--font-display);
-		font-size: clamp(4rem, 9vw, 7rem);
+	.bio-photo {
+		display: block;
+		width: 100%;
+		height: auto;
 		border-radius: 16px;
 		position: sticky;
 		top: 6rem;
@@ -257,8 +258,8 @@ const values = [
 			grid-template-columns: 1fr;
 			gap: 2.5rem;
 		}
-		.bio-mark {
-			max-width: 16rem;
+		.bio-photo {
+			max-width: 20rem;
 			position: static;
 		}
 	}

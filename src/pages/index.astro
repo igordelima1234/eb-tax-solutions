@@ -95,23 +95,33 @@ const resources = [
 		<main>
 			<!-- Hero -->
 			<section class="hero">
-				<div class="container">
-					<p class="eyebrow">EB Tax Solutions</p>
-					<h1>
-						Your trusted partner for<br />
-						<em>expert tax services.</em>
-					</h1>
-					<p class="lede">
-						Enjoy expert tax services in all 50 US states, personalized just
-						for you.
-					</p>
-					<div class="hero-actions">
-						<a class="btn btn-light" href="/contact">Get started</a>
-						<a class="btn btn-ghost" href="#services">Our services</a>
+				<div class="container hero-grid">
+					<div>
+						<p class="eyebrow">EB Tax Solutions</p>
+						<h1>
+							Your trusted partner for<br />
+							<em>expert tax services.</em>
+						</h1>
+						<p class="lede">
+							Enjoy expert tax services in all 50 US states, personalized just
+							for you.
+						</p>
+						<div class="hero-actions">
+							<a class="btn btn-light" href="/contact">Get started</a>
+							<a class="btn btn-ghost" href="#services">Our services</a>
+						</div>
+						<ul class="hero-points">
+							{highlights.map((item) => <li>{item}</li>)}
+						</ul>
 					</div>
-					<ul class="hero-points">
-						{highlights.map((item) => <li>{item}</li>)}
-					</ul>
+					<div class="hero-photo">
+						<img
+							src="/images/evin-hero.jpg"
+							alt="Evin Basher, founder of EB Tax Solutions"
+							width="1200"
+							height="1800"
+						/>
+					</div>
 				</div>
 			</section>
 
@@ -194,7 +204,18 @@ const resources = [
 			<!-- Meet Evin -->
 			<section class="about" id="about">
 				<div class="container about-grid">
-					<div class="about-mark" aria-hidden="true">EB</div>
+					<figure class="about-photo">
+						<img
+							src="/images/evin-portrait.jpg"
+							alt="Evin Basher, founder of EB Tax Solutions"
+							width="1200"
+							height="1800"
+						/>
+						<figcaption>
+							<span class="name">Evin Basher</span>
+							<span class="role">Founder, EB Tax Solutions</span>
+						</figcaption>
+					</figure>
 					<div>
 						<p class="eyebrow dark">Your tax expert</p>
 						<h2>Meet Evin Basher: your tax advocate</h2>
@@ -371,7 +392,20 @@ const resources = [
 	.hero {
 		background: var(--color-ink);
 		color: #c7c9cc;
-		padding: 8rem 0;
+		padding: 6rem 0;
+	}
+	.hero-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+		gap: 3rem;
+		align-items: center;
+	}
+	.hero-photo img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 16px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
 	}
 	.hero h1 {
 		font-size: clamp(2.75rem, 6.5vw, 4.5rem);
@@ -532,16 +566,35 @@ const resources = [
 		gap: 4rem;
 		align-items: center;
 	}
-	.about-mark {
-		aspect-ratio: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: var(--color-ink);
-		color: #fff;
-		font-family: var(--font-display);
-		font-size: clamp(4rem, 9vw, 7rem);
+	.about-photo {
+		margin: 0;
+		position: relative;
+	}
+	.about-photo img {
+		display: block;
+		width: 100%;
+		height: auto;
 		border-radius: 16px;
+	}
+	.about-photo figcaption {
+		position: absolute;
+		left: 1.5rem;
+		bottom: 1.5rem;
+		background: #fff;
+		border-radius: 10px;
+		padding: 0.75rem 1.25rem;
+		box-shadow: var(--box-shadow);
+		display: flex;
+		flex-direction: column;
+	}
+	.about-photo .name {
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		color: var(--color-ink);
+	}
+	.about-photo .role {
+		font-size: 0.85rem;
+		color: var(--color-muted);
 	}
 	.about p {
 		font-size: 1.05rem;
@@ -650,15 +703,19 @@ const resources = [
 		}
 		.welcome-grid,
 		.about-grid,
-		.testimonial-grid {
+		.testimonial-grid,
+		.hero-grid {
 			grid-template-columns: 1fr;
 			gap: 2.5rem;
 		}
 		.welcome-card {
 			position: static;
 		}
-		.about-mark {
-			max-width: 16rem;
+		.hero-photo {
+			max-width: 20rem;
+		}
+		.about-photo {
+			max-width: 20rem;
 		}
 	}
 	@media (max-width: 720px) {
@@ -666,7 +723,7 @@ const resources = [
 			padding: 4rem 0;
 		}
 		.hero {
-			padding: 5rem 0;
+			padding: 4rem 0;
 		}
 	}
 </style>
