@@ -7,15 +7,13 @@ import {
 	CONTACT_PHONE,
 	CONTACT_PHONE_HREF,
 	CONTACT_EMAIL,
+	CONTACT_HOURS,
 } from '../consts';
 
 const serviceOptions = [
-	'Individual tax preparation',
-	'Small business / self-employed',
-	'Tax planning & strategy',
-	'IRS letter or back taxes',
-	'Quarterly estimated taxes',
-	'Amendment or prior-year return',
+	'Virtual & mobile tax return preparation',
+	'Business formation services',
+	'Mobile notary services',
 	'Something else',
 ];
 ---
@@ -37,8 +35,9 @@ const serviceOptions = [
 					<p class="eyebrow">Contact</p>
 					<h1>Let’s talk <em>taxes.</em></h1>
 					<p class="lede">
-						Tell Evin a little about your situation and he’ll get back to you
-						with exactly how he can help. Consultations are free.
+						Contact EB Tax Solutions today to schedule your consultation and
+						experience the difference expertise and dedication can make. Our
+						team will reach out to you.
 					</p>
 				</div>
 			</section>
@@ -61,10 +60,14 @@ const serviceOptions = [
 							<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
 						</div>
 						<div class="info-item">
+							<p class="info-label">Hours</p>
+							<p class="info-value">{CONTACT_HOURS}</p>
+						</div>
+						<div class="info-item">
 							<p class="info-label">Location</p>
 							<p class="info-value">
-								Dallas–Fort Worth, Texas<br />
-								In-person and virtual appointments available
+								Serving all 50 US states virtually<br />
+								Mobile notary in the Dallas–Fort Worth area
 							</p>
 						</div>
 					</div>

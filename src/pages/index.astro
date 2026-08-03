@@ -10,70 +10,78 @@ import {
 	CONTACT_EMAIL,
 } from '../consts';
 
+const highlights = [
+	'Expert Guidance',
+	'Personalized Solutions',
+	'Proactive Approach',
+	'Exceptional Customer Service',
+];
+
+const values = [
+	{
+		title: 'Upholding Ethical Standards',
+		description:
+			'We adhere to the highest ethical standards, ensuring honesty and fairness in every interaction.',
+	},
+	{
+		title: 'Ensuring Precise Accuracy',
+		description:
+			'Our commitment to precision guarantees that every tax filing and business service is meticulously executed.',
+	},
+	{
+		title: 'Delivering Professional Excellence',
+		description:
+			'We set a standard of excellence that builds trust and instills confidence in our clients.',
+	},
+];
+
 const services = [
 	{
-		title: 'Individual Tax Preparation',
+		title: 'Virtual & Mobile Tax Return Preparation',
 		description:
-			'Accurate, on-time federal returns for individuals and families — with every credit and deduction you qualify for.',
+			'Whether you’re an individual taxpayer or a business owner, our experienced team offers convenient virtual and mobile tax preparation services tailored to your needs.',
 	},
 	{
-		title: 'Small Business & Self-Employed',
+		title: 'Business Formation Services',
 		description:
-			'Returns and guidance for sole proprietors, contractors, LLCs, and S corps, from Schedule C to payroll questions.',
+			'From consultation to EIN assistance and virtual address setup, we provide comprehensive support to help your business get off the ground with confidence.',
 	},
 	{
-		title: 'Tax Planning & Strategy',
+		title: 'Mobile Notary Services',
 		description:
-			'Year-round planning that looks ahead — so decisions about income, retirement, and investments are made before the deadline, not after.',
-	},
-	{
-		title: 'IRS Letters & Back Taxes',
-		description:
-			'Received a notice? Behind on filings? Get a clear plan to respond, catch up, and put the stress behind you.',
-	},
-	{
-		title: 'Quarterly Estimated Taxes',
-		description:
-			'Right-sized quarterly payments for freelancers and business owners — no surprises in April, no overpaying all year.',
-	},
-	{
-		title: 'Amendments & Prior-Year Returns',
-		description:
-			'Missed a deduction or need to fix a past return? Prior-year filings and amendments handled carefully and completely.',
+			'Serving the Dallas–Fort Worth area, our mobile notary services ensure your important documents are properly authenticated when and where you need them.',
 	},
 ];
 
-const steps = [
+const resources = [
 	{
-		title: 'Talk it through',
-		description:
-			'Start with a free, no-pressure consultation. Bring your questions and last year’s return — we’ll map out what you need.',
+		question: 'Where can I get the status of my refund?',
+		answer:
+			'You can check the status of your federal refund directly with the IRS using the Where’s My Refund tool.',
+		linkLabel: 'Check your refund status',
+		href: 'https://www.irs.gov/refunds',
 	},
 	{
-		title: 'Hand it off',
-		description:
-			'Send your documents in person or securely online. Evin prepares everything and walks you through it in plain English.',
+		question: 'What business expenses can I deduct?',
+		answer:
+			'The IRS provides guidance on which business expenses are deductible and how to claim them.',
+		linkLabel: 'IRS guide to deducting business expenses',
+		href: 'https://www.irs.gov/businesses/small-businesses-self-employed/deducting-business-expenses',
 	},
 	{
-		title: 'File with confidence',
-		description:
-			'Review, sign, and file. Then get year-round support — if the IRS ever has questions, you won’t face them alone.',
+		question: 'Where can I get help filling out my W-4?',
+		answer:
+			'The IRS offers instructions and a withholding estimator to help you complete Form W-4 accurately.',
+		linkLabel: 'About Form W-4',
+		href: 'https://www.irs.gov/forms-pubs/about-form-w-4',
 	},
-];
-
-const cities = [
-	'Dallas',
-	'Fort Worth',
-	'Arlington',
-	'Plano',
-	'Irving',
-	'Frisco',
-	'McKinney',
-	'Grand Prairie',
-	'Garland',
-	'Denton',
-	'Richardson',
-	'Carrollton',
+	{
+		question: 'More IRS resources',
+		answer:
+			'Forms, publications, payment options, and more are available on the official IRS website.',
+		linkLabel: 'Visit IRS.gov',
+		href: 'https://www.irs.gov',
+	},
 ];
 ---
 
@@ -88,37 +96,84 @@ const cities = [
 			<!-- Hero -->
 			<section class="hero">
 				<div class="container">
-					<p class="eyebrow">Dallas–Fort Worth tax services</p>
+					<p class="eyebrow">EB Tax Solutions</p>
 					<h1>
-						Taxes, handled.<br />
-						<em>Right here in DFW.</em>
+						Your trusted partner for<br />
+						<em>expert tax services.</em>
 					</h1>
 					<p class="lede">
-						Evin Basher helps individuals and small businesses across the
-						Dallas–Fort Worth metroplex file with confidence, plan ahead, and
-						keep more of what they earn.
+						Enjoy expert tax services in all 50 US states, personalized just
+						for you.
 					</p>
 					<div class="hero-actions">
-						<a class="btn btn-light" href="/contact">Schedule a consultation</a>
-						<a class="btn btn-ghost" href="#services">View services</a>
+						<a class="btn btn-light" href="/contact">Get started</a>
+						<a class="btn btn-ghost" href="#services">Our services</a>
 					</div>
 					<ul class="hero-points">
-						<li>Individuals &amp; small businesses</li>
-						<li>Year-round support</li>
-						<li>Local to Dallas–Fort Worth</li>
+						{highlights.map((item) => <li>{item}</li>)}
 					</ul>
+				</div>
+			</section>
+
+			<!-- Welcome -->
+			<section class="welcome" id="welcome">
+				<div class="container welcome-grid">
+					<div>
+						<p class="eyebrow dark">Welcome to EB Tax Solutions</p>
+						<h2>We will provide the best tax service for your business.</h2>
+						<p>
+							At EB Tax Solutions, we’re more than just a tax preparation
+							firm. We’re dedicated to empowering individuals and businesses
+							with the knowledge and tools they need to navigate the
+							complexities of the tax landscape.
+						</p>
+						<p>
+							Our founder, Evin Basher, started this journey driven by a
+							personal experience, determined to bring professionalism and
+							education back into the tax industry.
+						</p>
+						<p class="signature">
+							Evin Basher
+							<span>Founder, EB Tax Solutions</span>
+						</p>
+					</div>
+					<aside class="welcome-card">
+						<p class="card-label">Contact us today</p>
+						<p class="card-title">Our team will reach out to you.</p>
+						<p class="card-copy">
+							Tell us a little about your situation and we’ll follow up with
+							exactly how we can help.
+						</p>
+						<a class="btn btn-dark" href="/contact">Contact us</a>
+					</aside>
+				</div>
+			</section>
+
+			<!-- Values -->
+			<section class="values-band">
+				<div class="container">
+					<div class="value-grid">
+						{
+							values.map((value) => (
+								<article class="value-card">
+									<h3>{value.title}</h3>
+									<p>{value.description}</p>
+								</article>
+							))
+						}
+					</div>
 				</div>
 			</section>
 
 			<!-- Services -->
 			<section class="services" id="services">
 				<div class="container">
-					<p class="eyebrow dark">What we do</p>
-					<h2>Services built around your situation</h2>
+					<p class="eyebrow dark">Our services</p>
+					<h2>Expert solutions offered</h2>
 					<p class="section-lede">
-						Whether it’s a straightforward return or a business with moving
-						parts, you get the same thing: careful work, clear answers, and no
-						jargon.
+						Explore our range of tax preparation and business services
+						designed to streamline your financial practices and maximize your
+						returns.
 					</p>
 					<div class="service-grid">
 						{
@@ -136,74 +191,93 @@ const cities = [
 				</div>
 			</section>
 
-			<!-- About -->
+			<!-- Meet Evin -->
 			<section class="about" id="about">
 				<div class="container about-grid">
 					<div class="about-mark" aria-hidden="true">EB</div>
 					<div>
-						<p class="eyebrow dark">Meet your tax expert</p>
-						<h2>Evin Basher</h2>
+						<p class="eyebrow dark">Your tax expert</p>
+						<h2>Meet Evin Basher: your tax advocate</h2>
 						<p>
-							Evin is a Dallas–Fort Worth tax professional who believes taxes
-							shouldn’t feel like a black box. Clients come to him with a
-							shoebox of receipts, an IRS letter, or a growing business — and
-							leave with a clear plan and a return they understand.
+							Evin Basher, the founder of EB Tax Solutions, brings a passion
+							for education and professionalism to the tax services industry.
+							His commitment to integrity and accuracy is at the core of the
+							firm’s mission to empower and educate its clients.
 						</p>
 						<p>
-							No call centers, no handoffs, no once-a-year strangers. When you
-							work with EB Tax Solutions, you work directly with Evin — this tax
-							season and every one after it.
+							Under Evin’s leadership, EB Tax Solutions stands out as a beacon
+							of knowledge and reliability, helping clients navigate the
+							complexities of tax preparation and business planning with ease
+							and confidence.
 						</p>
-						<a class="btn btn-dark" href="/contact">Work with Evin</a>
+						<a class="btn btn-dark" href="/about">Learn more</a>
 					</div>
 				</div>
 			</section>
 
-			<!-- Process -->
-			<section class="process">
-				<div class="container">
-					<p class="eyebrow dark">How it works</p>
-					<h2>Simple from start to filed</h2>
-					<ol class="steps">
-						{
-							steps.map((step, i) => (
-								<li>
-									<span class="step-number">{i + 1}</span>
-									<h3>{step.title}</h3>
-									<p>{step.description}</p>
-								</li>
-							))
-						}
-					</ol>
+			<!-- Testimonial -->
+			<section class="testimonial">
+				<div class="container testimonial-grid">
+					<div>
+						<p class="eyebrow">Testimonials</p>
+						<h2>What our clients say</h2>
+						<p class="testimonial-copy">
+							Our clients appreciate our dedication to professionalism, deep
+							expertise, and genuine care for their unique tax needs. We take
+							great pride in guiding each client to maximize their financial
+							outcomes and ensuring they benefit from every possible advantage
+							in their tax situations.
+						</p>
+					</div>
+					<figure class="quote-card">
+						<blockquote>
+							“It’s my first year using EB Tax Solutions and I have to say I
+							am very impressed and satisfied with my service. Evin was very
+							professional and made sure I received every tax deduction I
+							deserved. Also the process and application was easy to
+							understand; communication was 10/10 and very flexible
+							appointment times. I highly recommend them for your tax needs. I
+							will definitely use their services in the future!”
+						</blockquote>
+						<figcaption>Brandy Gross</figcaption>
+					</figure>
 				</div>
 			</section>
 
-			<!-- Service area -->
-			<section class="service-area" id="service-area">
+			<!-- Resources -->
+			<section class="resources" id="resources">
 				<div class="container">
-					<p class="eyebrow dark">Where we work</p>
-					<h2>Proudly serving the metroplex</h2>
-					<p class="section-lede">
-						Based in Dallas–Fort Worth and happy to meet in person — or handle
-						everything virtually if that’s easier for you.
-					</p>
-					<ul class="city-list">
-						{cities.map((city) => <li>{city}</li>)}
-					</ul>
-					<p class="area-note">…and everywhere in between.</p>
+					<p class="eyebrow dark">Resources</p>
+					<h2>Useful links &amp; information</h2>
+					<div class="accordion">
+						{
+							resources.map((item) => (
+								<details>
+									<summary>{item.question}</summary>
+									<div class="accordion-body">
+										<p>{item.answer}</p>
+										<a href={item.href} target="_blank" rel="noopener">
+											{item.linkLabel}
+										</a>
+									</div>
+								</details>
+							))
+						}
+					</div>
 				</div>
 			</section>
 
 			<!-- Contact / CTA -->
 			<section class="contact" id="contact">
 				<div class="container">
-					<h2>Ready to take taxes off your plate?</h2>
+					<h2>Ready to take control of your taxes and financial future?</h2>
 					<p class="contact-lede">
-						Reach out for a free consultation. Tell Evin a little about your
-						situation and he’ll tell you exactly how he can help.
+						Contact EB Tax Solutions today to schedule your consultation and
+						experience the difference expertise and dedication can make.
 					</p>
 					<div class="contact-actions">
-						<a class="btn btn-light" href={CONTACT_PHONE_HREF}>
+						<a class="btn btn-light" href="/contact">Get started</a>
+						<a class="btn btn-ghost" href={CONTACT_PHONE_HREF}>
 							Call {CONTACT_PHONE}
 						</a>
 						<a class="btn btn-ghost" href={`mailto:${CONTACT_EMAIL}`}>
@@ -300,7 +374,7 @@ const cities = [
 		padding: 8rem 0;
 	}
 	.hero h1 {
-		font-size: clamp(2.75rem, 6.5vw, 4.75rem);
+		font-size: clamp(2.75rem, 6.5vw, 4.5rem);
 		color: #fff;
 		margin-bottom: 1.5rem;
 	}
@@ -335,14 +409,97 @@ const cities = [
 		color: #6e7278;
 	}
 
+	/* Welcome */
+	.welcome-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+		gap: 4rem;
+		align-items: start;
+	}
+	.welcome p {
+		font-size: 1.05rem;
+	}
+	.signature {
+		font-family: var(--font-display);
+		font-size: 1.5rem;
+		color: var(--color-ink);
+		margin-top: 2rem;
+	}
+	.signature span {
+		display: block;
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: var(--color-muted);
+		margin-top: 0.25rem;
+	}
+	.welcome-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-line);
+		border-radius: 16px;
+		padding: 2.5rem;
+		position: sticky;
+		top: 6rem;
+	}
+	.card-label {
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-muted);
+		margin: 0 0 0.75rem;
+	}
+	.card-title {
+		font-family: var(--font-display);
+		font-size: 1.6rem;
+		color: var(--color-ink);
+		line-height: 1.2;
+		margin: 0 0 0.75rem;
+	}
+	.card-copy {
+		font-size: 0.98rem;
+		color: var(--color-muted);
+		margin: 0 0 1.5rem;
+	}
+
+	/* Values */
+	.values-band {
+		background: var(--color-ink);
+		padding: 4.5rem 0;
+	}
+	.value-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
+	}
+	.value-card {
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 12px;
+		padding: 2rem;
+	}
+	.value-card h3 {
+		font-size: 1.35rem;
+		color: #fff;
+		margin-bottom: 0.75rem;
+	}
+	.value-card p {
+		font-size: 0.98rem;
+		color: #b9bbbf;
+		margin: 0;
+	}
+
 	/* Services */
+	.services {
+		background: var(--color-surface);
+		border-bottom: 1px solid var(--color-line);
+	}
 	.service-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 1.5rem;
 	}
 	.service-card {
-		background: var(--color-surface);
+		background: #fff;
 		border: 1px solid var(--color-line);
 		border-radius: 12px;
 		padding: 2rem;
@@ -369,11 +526,6 @@ const cities = [
 	}
 
 	/* About */
-	.about {
-		background: var(--color-surface);
-		border-top: 1px solid var(--color-line);
-		border-bottom: 1px solid var(--color-line);
-	}
 	.about-grid {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
@@ -398,64 +550,72 @@ const cities = [
 		margin-top: 0.75rem;
 	}
 
-	/* Process */
-	.steps {
+	/* Testimonial */
+	.testimonial {
+		background: var(--color-ink);
+		color: #c7c9cc;
+	}
+	.testimonial h2 {
+		color: #fff;
+	}
+	.testimonial-grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 2.5rem;
-		list-style: none;
-		margin: 3rem 0 0;
-		padding: 0;
-		counter-reset: step;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+		gap: 4rem;
+		align-items: center;
 	}
-	.steps li {
-		border-top: 2px solid var(--color-ink);
-		padding-top: 1.5rem;
-	}
-	.step-number {
-		display: block;
-		font-family: var(--font-display);
-		font-size: 2rem;
-		color: #9a9da3;
-		margin-bottom: 0.75rem;
-	}
-	.steps h3 {
-		font-size: 1.35rem;
-		margin-bottom: 0.5rem;
-	}
-	.steps p {
-		font-size: 0.98rem;
-		color: var(--color-muted);
+	.testimonial-copy {
+		font-size: 1.05rem;
 		margin: 0;
 	}
-
-	/* Service area */
-	.service-area {
-		background: var(--color-surface);
-		border-top: 1px solid var(--color-line);
-		border-bottom: 1px solid var(--color-line);
-	}
-	.city-list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-	.city-list li {
+	.quote-card {
 		background: #fff;
-		border: 1px solid var(--color-line);
-		border-radius: 999px;
-		padding: 0.5rem 1.25rem;
-		font-size: 0.95rem;
-		font-weight: 500;
+		border-radius: 16px;
+		padding: 2.5rem;
+		margin: 0;
+	}
+	.quote-card blockquote {
+		border: none;
+		padding: 0;
+		margin: 0 0 1.5rem;
+		font-size: 1.05rem;
+		line-height: 1.7;
+		color: var(--color-body);
+	}
+	.quote-card figcaption {
+		font-family: var(--font-display);
+		font-size: 1.2rem;
 		color: var(--color-ink);
 	}
-	.area-note {
-		margin: 1.5rem 0 0;
-		font-style: italic;
+
+	/* Resources */
+	.accordion {
+		max-width: 46rem;
+		margin-top: 2rem;
+	}
+	.accordion details {
+		border: 1px solid var(--color-line);
+		border-radius: 10px;
+		margin-bottom: 0.75rem;
+		background: var(--color-surface);
+	}
+	.accordion summary {
+		cursor: pointer;
+		font-weight: 700;
+		color: var(--color-ink);
+		padding: 1.1rem 1.4rem;
+		list-style-position: inside;
+	}
+	.accordion-body {
+		padding: 0 1.4rem 1.25rem;
+	}
+	.accordion-body p {
+		margin: 0 0 0.5rem;
+		font-size: 0.98rem;
 		color: var(--color-muted);
+	}
+	.accordion-body a {
+		font-weight: 500;
 	}
 
 	/* Contact */
@@ -467,6 +627,9 @@ const cities = [
 	}
 	.contact h2 {
 		color: #fff;
+		max-width: 40rem;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	.contact-lede {
 		max-width: 34rem;
@@ -481,12 +644,18 @@ const cities = [
 	}
 
 	@media (max-width: 900px) {
-		.service-grid {
-			grid-template-columns: repeat(2, 1fr);
+		.service-grid,
+		.value-grid {
+			grid-template-columns: 1fr;
 		}
-		.about-grid {
+		.welcome-grid,
+		.about-grid,
+		.testimonial-grid {
 			grid-template-columns: 1fr;
 			gap: 2.5rem;
+		}
+		.welcome-card {
+			position: static;
 		}
 		.about-mark {
 			max-width: 16rem;
@@ -498,10 +667,6 @@ const cities = [
 		}
 		.hero {
 			padding: 5rem 0;
-		}
-		.service-grid,
-		.steps {
-			grid-template-columns: 1fr;
 		}
 	}
 </style>
