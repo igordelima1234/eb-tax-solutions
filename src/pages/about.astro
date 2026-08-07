@@ -264,11 +264,49 @@ const values = [
 		}
 	}
 	@media (max-width: 720px) {
-		section {
-			padding: 4rem 0;
+		section,
+		.page-header,
+		.cta-band {
+			padding: 3.5rem 0;
+		}
+		.container {
+			padding: 0 1.25rem;
+		}
+		.page-header h1 {
+			font-size: 2.25rem;
+		}
+		h2 {
+			font-size: 1.85rem;
+		}
+		.lede,
+		.cta-lede {
+			font-size: 1.05rem;
+		}
+		.bio-photo {
+			max-width: 100%;
+			aspect-ratio: 4 / 5;
+			object-fit: cover;
+			object-position: center 15%;
 		}
 		.value-grid {
 			grid-template-columns: 1fr;
+			gap: 1rem;
+			margin-top: 2rem;
+		}
+		.value-card {
+			padding: 1.5rem;
+		}
+		.cta-band .btn {
+			display: block;
+			text-align: center;
+		}
+	}
+	@media (max-width: 420px) {
+		.page-header h1 {
+			font-size: 2rem;
+		}
+		h2 {
+			font-size: 1.65rem;
 		}
 	}
 </style>

@@ -94,9 +94,28 @@ const today = new Date();
 		font-size: 0.85rem;
 	}
 	@media (max-width: 720px) {
+		footer {
+			padding: 3rem 1.25rem 2rem;
+		}
 		.footer-inner {
 			grid-template-columns: 1fr;
 			gap: 2rem;
+		}
+		.tagline {
+			max-width: none;
+		}
+		/* Roomier rows so footer links are comfortable tap targets. */
+		.col {
+			gap: 0;
+		}
+		.col a {
+			padding: 0.6rem 0;
+		}
+		.note {
+			padding-top: 0.6rem;
+		}
+		.legal {
+			margin-top: 2rem;
 		}
 	}
 </style>

@@ -59,6 +59,14 @@
 
 html {
 	scroll-behavior: smooth;
+	/* Keep in-page anchor targets clear of the sticky header. */
+	scroll-padding-top: 5.5rem;
+	-webkit-text-size-adjust: 100%;
+}
+/* Set by the mobile menu so the page behind the panel can't scroll. */
+html.menu-open,
+html.menu-open body {
+	overflow: hidden;
 }
 body {
 	font-family: var(--font-body);
@@ -164,6 +172,27 @@ hr {
 	}
 	main {
 		padding: 1em;
+	}
+	/* Tighten the display scale so long headings don't dominate the screen. */
+	h1 {
+		font-size: 2.25em;
+	}
+	h2 {
+		font-size: 1.85em;
+	}
+	h3 {
+		font-size: 1.5em;
+	}
+	h4 {
+		font-size: 1.25em;
+	}
+	blockquote {
+		font-size: 1.1em;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
 	}
 }
 

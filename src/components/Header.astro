@@ -1,31 +1,164 @@
 ---
-import { SITE_TITLE, CONTACT_PHONE, CONTACT_PHONE_HREF } from '../consts';
+import {
+	SITE_TITLE,
+	CONTACT_PHONE,
+	CONTACT_PHONE_HREF,
+	CONTACT_EMAIL,
+	CONTACT_HOURS,
+} from '../consts';
+
+const navLinks = [
+	{ href: '/#services', label: 'Services' },
+	{ href: '/about', label: 'About' },
+	{ href: '/#resources', label: 'Resources' },
+	{ href: '/contact', label: 'Contact' },
+];
+
+// Mark the current page so it reads as active in both navs.
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => href.startsWith('/#') === false && href.replace(/\/$/, '') === path;
 ---
 
 <header>
-	<nav>
+	<nav class="bar" aria-label="Main">
 		<a class="wordmark" href="/">{SITE_TITLE}</a>
-		<div class="internal-links">
-			<a href="/#services">Services</a>
-			<a href="/about">About</a>
-			<a href="/#resources">Resources</a>
-			<a href="/contact">Contact</a>
+
+		<div class="desktop-links">
+			{
+				navLinks.map((link) => (
+					<a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+						{link.label}
+					</a>
+				))
+			}
 		</div>
-		<a class="cta" href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
+
+		<div class="bar-actions">
+			<a class="cta" href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
+			<a class="icon-btn" href={CONTACT_PHONE_HREF}>
+				<span class="sr-only">Call {CONTACT_PHONE}</span>
+				<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1 .3 2 .5 3.1.5.4 0 .7.3.7.7v2.7c0 .4-.3.7-.7.7C9.2 18.6 2 11.4 2 2.7 2 2.3 2.3 2 2.7 2h2.7c.4 0 .7.3.7.7 0 1 .2 2.1.5 3.1.1.3 0 .6-.2.8l-1.8 1.7Z"
+					></path>
+				</svg>
+			</a>
+			<button
+				class="menu-toggle"
+				id="menu-toggle"
+				type="button"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+			>
+				<span class="sr-only">Menu</span>
+				<span class="bars" aria-hidden="true">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</button>
+		</div>
 	</nav>
 </header>
+
+<!-- Mobile menu panel. Must stay outside <header>: the header's backdrop-filter
+	 makes it a containing block, which would trap this fixed panel inside it. -->
+<div class="mobile-menu" id="mobile-menu" data-open="false" inert>
+	<div class="menu-top">
+		<span class="wordmark menu-wordmark">{SITE_TITLE}</span>
+		<button class="menu-close" id="menu-close" type="button">
+			<span class="sr-only">Close menu</span>
+			<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+				<path
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					d="M6 6l12 12M18 6L6 18"
+				></path>
+			</svg>
+		</button>
+	</div>
+
+	<nav class="menu-links" aria-label="Mobile">
+		{
+			navLinks.map((link) => (
+				<a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+					{link.label}
+				</a>
+			))
+		}
+	</nav>
+
+	<div class="menu-footer">
+		<a class="menu-cta" href="/contact">Get started</a>
+		<div class="menu-contact">
+			<a href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
+			<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+			<p>{CONTACT_HOURS}</p>
+		</div>
+	</div>
+</div>
+
+<script>
+	const toggle = document.getElementById('menu-toggle')!;
+	const closeBtn = document.getElementById('menu-close')!;
+	const menu = document.getElementById('mobile-menu')!;
+	const root = document.documentElement;
+
+	function openMenu() {
+		menu.dataset.open = 'true';
+		menu.removeAttribute('inert');
+		toggle.setAttribute('aria-expanded', 'true');
+		root.classList.add('menu-open');
+		// Wait a frame: the panel is still `visibility: hidden` this tick, and a
+		// hidden element silently refuses focus.
+		requestAnimationFrame(() =>
+			menu.querySelector<HTMLElement>('a, button')?.focus(),
+		);
+	}
+
+	function closeMenu(returnFocus = true) {
+		menu.dataset.open = 'false';
+		menu.setAttribute('inert', '');
+		toggle.setAttribute('aria-expanded', 'false');
+		root.classList.remove('menu-open');
+		if (returnFocus) toggle.focus();
+	}
+
+	const isOpen = () => menu.dataset.open === 'true';
+
+	toggle.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
+	closeBtn.addEventListener('click', () => closeMenu());
+
+	// Any link tap closes the panel — in-page anchors don't trigger navigation.
+	menu.querySelectorAll('a').forEach((link) =>
+		link.addEventListener('click', () => closeMenu(false)),
+	);
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && isOpen()) closeMenu();
+	});
+
+	// Never leave the panel open once the desktop nav takes over.
+	window.matchMedia('(min-width: 841px)').addEventListener('change', (event) => {
+		if (event.matches && isOpen()) closeMenu(false);
+	});
+</script>
+
 <style>
 	header {
 		position: sticky;
 		top: 0;
-		z-index: 10;
+		z-index: 50;
 		margin: 0;
 		padding: 0 1.5rem;
 		background: rgba(255, 255, 255, 0.92);
 		backdrop-filter: blur(8px);
 		border-bottom: 1px solid var(--color-line);
 	}
-	nav {
+	.bar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -40,19 +173,32 @@ import { SITE_TITLE, CONTACT_PHONE, CONTACT_PHONE_HREF } from '../consts';
 		color: var(--color-ink);
 		text-decoration: none;
 		white-space: nowrap;
+		/* Fill the bar height so the tap area matches the other controls. */
+		display: flex;
+		align-items: center;
+		align-self: stretch;
 	}
-	.internal-links {
+	.desktop-links {
 		display: flex;
 		gap: 1.75rem;
 	}
-	.internal-links a {
+	.desktop-links a {
 		font-size: 0.95rem;
 		font-weight: 500;
 		color: var(--color-body);
 		text-decoration: none;
 	}
-	.internal-links a:hover {
+	.desktop-links a:hover {
 		color: var(--color-ink);
+	}
+	.desktop-links a[aria-current='page'] {
+		color: var(--color-ink);
+		font-weight: 700;
+	}
+	.bar-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 	.cta {
 		font-size: 0.9rem;
@@ -68,9 +214,164 @@ import { SITE_TITLE, CONTACT_PHONE, CONTACT_PHONE_HREF } from '../consts';
 		color: #fff;
 		background: #2a2b2e;
 	}
+
+	/* Compact phone + hamburger — mobile only */
+	.icon-btn,
+	.menu-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		border: 1px solid var(--color-line);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--color-ink);
+		cursor: pointer;
+	}
+	.bars {
+		display: block;
+		width: 1.125rem;
+	}
+	.bars span {
+		display: block;
+		height: 2px;
+		background: var(--color-ink);
+		border-radius: 2px;
+	}
+	.bars span + span {
+		margin-top: 4px;
+	}
+
+	/* Mobile menu panel */
+	.mobile-menu {
+		position: fixed;
+		inset: 0;
+		z-index: 60;
+		display: flex;
+		flex-direction: column;
+		padding: 0 1.5rem 2rem;
+		background: var(--color-ink);
+		color: #c7c9cc;
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-0.5rem);
+		/* Hold visibility until the fade-out finishes, but flip it on instantly
+		   when opening — a hidden element cannot take focus. */
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease,
+			visibility 0s linear 0.2s;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+	.mobile-menu[data-open='true'] {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease,
+			visibility 0s;
+	}
+	.menu-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 4.25rem;
+		flex-shrink: 0;
+	}
+	.menu-wordmark {
+		color: #fff;
+	}
+	.menu-close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		margin-right: -0.5rem;
+		padding: 0;
+		border: none;
+		background: transparent;
+		color: #fff;
+		cursor: pointer;
+	}
+	.menu-links {
+		display: flex;
+		flex-direction: column;
+		padding: 1.5rem 0;
+	}
+	.menu-links a {
+		font-family: var(--font-display);
+		font-size: 1.75rem;
+		line-height: 1.2;
+		color: #fff;
+		text-decoration: none;
+		padding: 0.75rem 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	}
+	.menu-links a[aria-current='page'] {
+		color: #9a9da3;
+	}
+	.menu-footer {
+		margin-top: auto;
+		padding-top: 2rem;
+	}
+	.menu-cta {
+		display: block;
+		text-align: center;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--color-ink);
+		background: #fff;
+		padding: 0.9rem 1.75rem;
+		border-radius: 999px;
+		text-decoration: none;
+	}
+	.menu-contact {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		margin-top: 1.5rem;
+		font-size: 0.95rem;
+	}
+	.menu-contact a {
+		color: #c7c9cc;
+		text-decoration: none;
+		padding: 0.55rem 0;
+	}
+	.menu-contact p {
+		margin: 0;
+		padding: 0.55rem 0;
+		color: #8e9196;
+	}
+
 	@media (max-width: 840px) {
-		.internal-links {
+		.desktop-links,
+		.cta {
 			display: none;
+		}
+		.icon-btn,
+		.menu-toggle {
+			display: flex;
+		}
+	}
+	@media (min-width: 841px) {
+		/* Panel can never surface on desktop, even mid-transition. */
+		.mobile-menu {
+			display: none;
+		}
+	}
+	@media (max-width: 400px) {
+		.wordmark {
+			font-size: 1.2rem;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.mobile-menu {
+			transition: none;
 		}
 	}
 </style>
