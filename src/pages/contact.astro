@@ -10,14 +10,10 @@ import {
 	CONTACT_EMAIL,
 	CONTACT_HOURS,
 	QUOTE_URL,
+	HUBSPOT_PORTAL_ID,
+	HUBSPOT_FORM_ID,
+	HUBSPOT_REGION,
 } from '../consts';
-
-const serviceOptions = [
-	'Virtual & mobile tax return preparation',
-	'Business formation services',
-	'Mobile notary services',
-	'Something else',
-];
 ---
 
 <!doctype html>
@@ -86,37 +82,23 @@ const serviceOptions = [
 						</div>
 					</div>
 
-					<form class="contact-form" id="contact-form" novalidate>
-						<div class="field-row">
-							<div class="field">
-								<label for="name">Full name</label>
-								<input type="text" id="name" name="name" required autocomplete="name" />
-							</div>
-							<div class="field">
-								<label for="phone">Phone</label>
-								<input type="tel" id="phone" name="phone" autocomplete="tel" />
-							</div>
+					<div class="contact-form">
+						<!-- HubSpot injects the form here. The fallback below is the
+							 container's initial content and gets cleared just before
+							 injection, so it stays put if the embed script never loads. -->
+						<div
+							id="hubspot-form"
+							data-portal-id={HUBSPOT_PORTAL_ID}
+							data-form-id={HUBSPOT_FORM_ID}
+							data-region={HUBSPOT_REGION}
+						>
+							<p class="form-fallback">
+								Loading the form… If it doesn’t appear, reach us directly at
+								<a href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a> or
+								<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+							</p>
 						</div>
-						<div class="field">
-							<label for="email">Email</label>
-							<input type="email" id="email" name="email" required autocomplete="email" />
-						</div>
-						<div class="field">
-							<label for="service">What do you need help with?</label>
-							<select id="service" name="service">
-								{serviceOptions.map((option) => <option>{option}</option>)}
-							</select>
-						</div>
-						<div class="field">
-							<label for="message">Tell us a bit about your situation</label>
-							<textarea id="message" name="message" rows="5"></textarea>
-						</div>
-						<button type="submit" class="btn btn-dark">Send message</button>
-						<p class="form-success" id="form-success" hidden>
-							Thanks! Your message is on its way — Evin will get back to you
-							within one business day.
-						</p>
-					</form>
+					</div>
 				</div>
 			</section>
 
@@ -145,23 +127,53 @@ const serviceOptions = [
 		<Footer />
 
 		<script>
+			const HUBSPOT_SRC = 'https://js-na2.hsforms.net/forms/embed/v2.js';
+
+			function createHubspotForm(target: HTMLElement) {
+				const hbspt = (window as any).hbspt;
+				if (!hbspt) return;
+				// Drop the fallback text, and any form left over from a previous
+				// visit, so navigating back here never stacks two forms.
+				target.innerHTML = '';
+				hbspt.forms.create({
+					portalId: target.dataset.portalId,
+					formId: target.dataset.formId,
+					region: target.dataset.region,
+					// Without an explicit target HubSpot injects wherever the script
+					// tag sits, which isn't stable across a view-transition DOM swap.
+					target: '#hubspot-form',
+				});
+			}
+
 			// Runs on first load and after every client-side navigation. The
 			// listener lives on `document`, which survives page swaps, so the
 			// body re-queries the fresh DOM each time.
 			document.addEventListener('astro:page-load', () => {
 				// Fires on every page, so bail when this isn't the contact page.
-				const form = document.getElementById('contact-form') as HTMLFormElement | null;
-				const success = document.getElementById('form-success');
-				if (!form || !success) return;
+				const target = document.getElementById('hubspot-form');
+				if (!target) return;
 
-				// Dummy form: no backend is wired up yet. Swallow the submit and
-				// show the success message so the flow can be demoed end to end.
-				form.addEventListener('submit', (event) => {
-					event.preventDefault();
-					if (!form.reportValidity()) return;
-					form.reset();
-					success.hidden = false;
-				});
+				// Already loaded from an earlier visit — just re-create the form.
+				if ((window as any).hbspt) {
+					createHubspotForm(target);
+					return;
+				}
+
+				const onReady = () => createHubspotForm(target);
+				const existing = document.querySelector(
+					`script[src="${HUBSPOT_SRC}"]`,
+				);
+				if (existing) {
+					// Injected but still in flight; wait for the same tag.
+					existing.addEventListener('load', onReady);
+					return;
+				}
+
+				const script = document.createElement('script');
+				script.src = HUBSPOT_SRC;
+				script.async = true;
+				script.addEventListener('load', onReady);
+				document.head.appendChild(script);
 			});
 		</script>
 	</body>
@@ -268,31 +280,44 @@ const serviceOptions = [
 		font-size: 1rem;
 	}
 
-	/* Form */
+	/* Form card */
 	.contact-form {
 		background: var(--color-surface);
 		border: 1px solid var(--color-line);
 		border-radius: 16px;
 		padding: 2.5rem;
 	}
-	.field-row {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1.25rem;
+	.form-fallback {
+		margin: 0;
+		color: var(--color-muted);
 	}
-	.field {
+
+	/*
+	  HubSpot injects its markup after render, so those elements never get
+	  Astro's data-astro-cid-* attribute — scoped selectors can't reach them.
+	  Everything below must stay wrapped in :global().
+	*/
+	.contact-form :global(.hs-form),
+	.contact-form :global(.hs-form) :global(*) {
+		font-family: var(--font-body);
+	}
+	.contact-form :global(.hs-form-field) {
 		margin-bottom: 1.25rem;
 	}
-	label {
+	.contact-form :global(.hs-form-field > label) {
 		display: block;
 		font-size: 0.9rem;
 		font-weight: 700;
 		color: var(--color-ink);
 		margin-bottom: 0.4rem;
 	}
-	input,
-	select,
-	textarea {
+	/* HubSpot's own helper text under a label. */
+	.contact-form :global(.hs-field-desc) {
+		font-size: 0.85rem;
+		color: var(--color-muted);
+		margin: 0 0 0.4rem;
+	}
+	.contact-form :global(.hs-input) {
 		width: 100%;
 		box-sizing: border-box;
 		font-family: var(--font-body);
@@ -303,15 +328,57 @@ const serviceOptions = [
 		border-radius: 8px;
 		padding: 0.7rem 0.9rem;
 	}
-	textarea {
+	.contact-form :global(textarea.hs-input) {
 		resize: vertical;
 	}
-	input:focus,
-	select:focus,
-	textarea:focus {
+	/* Checkbox and radio inputs must not stretch to full width. */
+	.contact-form :global(.hs-input[type='checkbox']),
+	.contact-form :global(.hs-input[type='radio']) {
+		width: auto;
+		margin-right: 0.5rem;
+	}
+	.contact-form :global(.hs-input:focus) {
 		outline: 2px solid var(--color-ink);
 		outline-offset: 1px;
 		border-color: var(--color-ink);
+	}
+	.contact-form :global(.hs-button) {
+		display: inline-block;
+		box-sizing: border-box;
+		font-family: var(--font-body);
+		font-size: 1rem;
+		font-weight: 700;
+		color: #fff;
+		background: var(--color-ink);
+		border: none;
+		cursor: pointer;
+		padding: 0.85rem 1.75rem;
+		border-radius: 999px;
+		transition: background 0.15s ease;
+	}
+	.contact-form :global(.hs-button:hover) {
+		background: #2a2b2e;
+	}
+	/* Validation errors and the required asterisk. */
+	.contact-form :global(.hs-error-msg),
+	.contact-form :global(.hs-error-msgs) {
+		font-size: 0.85rem;
+		color: #b3261e;
+		margin: 0.35rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.contact-form :global(.hs-form-required) {
+		color: #b3261e;
+	}
+	/* Post-submit confirmation, styled like the old success box. */
+	.contact-form :global(.submitted-message) {
+		padding: 0.9rem 1.1rem;
+		background: #fff;
+		border: 1px solid var(--color-ink);
+		border-radius: 8px;
+		font-weight: 500;
+		color: var(--color-ink);
 	}
 	.btn {
 		display: inline-block;
@@ -412,16 +479,22 @@ const serviceOptions = [
 		.contact-form {
 			padding: 1.5rem;
 		}
-		.field-row {
-			grid-template-columns: 1fr;
-			gap: 0;
-		}
 		/* 16px inputs keep iOS Safari from zooming in on focus. */
-		input,
-		select,
-		textarea {
+		.contact-form :global(.hs-input) {
 			font-size: 1rem;
 			padding: 0.8rem 0.9rem;
+		}
+		/* Full width needs border-box, or the padding overflows the viewport. */
+		.contact-form :global(.hs-button) {
+			display: block;
+			width: 100%;
+			text-align: center;
+		}
+		/* HubSpot lays some fields out in halves; stack them on narrow screens. */
+		.contact-form :global(.hs-form-field.hs-fieldtype-text),
+		.contact-form :global(.hs-form .form-columns-2 .hs-form-field) {
+			width: 100%;
+			float: none;
 		}
 		.btn {
 			display: block;

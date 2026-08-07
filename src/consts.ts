@@ -17,3 +17,8 @@ export const QUOTE_URL =
 export const TAX_PREP_URL = "https://linktr.ee/EBTaxPros";
 export const BUSINESS_FORMATION_URL =
 	"https://www.cognitoforms.com/EBTaxSolutions1/EBTaxSolutionsLLCBusinessFormationClientQuestionnaire";
+
+// HubSpot contact form embed. These are public embed identifiers, not secrets.
+export const HUBSPOT_PORTAL_ID = "46247794";
+export const HUBSPOT_FORM_ID = "4f1dcbb8-3ce9-45b3-8b0d-602315cf92a1";
+export const HUBSPOT_REGION = "na2";
