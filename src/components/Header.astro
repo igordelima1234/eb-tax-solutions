@@ -20,6 +20,8 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => href.startsWith('/#') === false && href.replace(/\/$/, '') === path;
 ---
 
+<a class="skip-link" href="#main-content">Skip to content</a>
+
 <header>
 	<nav class="bar" aria-label="Main">
 		<a class="wordmark" href="/">
@@ -118,16 +120,39 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 	</div>
 </div>
 
+<!-- Sticky mobile quote bar: the hero CTA scrolls out of view early on a long page. -->
+<div class="quote-bar" id="quote-bar" data-visible="false">
+	<a class="quote-bar-cta" href={QUOTE_URL} target="_blank" rel="noopener">
+		Free Tax Quote
+	</a>
+	<button class="quote-bar-close" id="quote-bar-close" type="button">
+		<span class="sr-only">Dismiss quote bar</span>
+		<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+			<path
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				d="M6 6l12 12M18 6L6 18"></path>
+		</svg>
+	</button>
+</div>
+
 <script>
-	const toggle = document.getElementById('menu-toggle')!;
-	const closeBtn = document.getElementById('menu-close')!;
-	const menu = document.getElementById('mobile-menu')!;
 	const root = document.documentElement;
 
+	// The DOM is replaced on every client-side navigation, so always look the
+	// current elements up rather than caching them at module scope.
+	const getMenu = () => document.getElementById('mobile-menu');
+	const getToggle = () => document.getElementById('menu-toggle');
+	const isOpen = () => getMenu()?.dataset.open === 'true';
+
 	function openMenu() {
+		const menu = getMenu();
+		if (!menu) return;
 		menu.dataset.open = 'true';
 		menu.removeAttribute('inert');
-		toggle.setAttribute('aria-expanded', 'true');
+		getToggle()?.setAttribute('aria-expanded', 'true');
 		root.classList.add('menu-open');
 		// Wait a frame: the panel is still `visibility: hidden` this tick, and a
 		// hidden element silently refuses focus.
@@ -137,30 +162,95 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 	}
 
 	function closeMenu(returnFocus = true) {
+		const menu = getMenu();
+		if (!menu) return;
 		menu.dataset.open = 'false';
 		menu.setAttribute('inert', '');
-		toggle.setAttribute('aria-expanded', 'false');
+		const toggle = getToggle();
+		toggle?.setAttribute('aria-expanded', 'false');
 		root.classList.remove('menu-open');
-		if (returnFocus) toggle.focus();
+		if (returnFocus) toggle?.focus();
 	}
 
-	const isOpen = () => menu.dataset.open === 'true';
-
-	toggle.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
-	closeBtn.addEventListener('click', () => closeMenu());
-
-	// Any link tap closes the panel — in-page anchors don't trigger navigation.
-	menu.querySelectorAll('a').forEach((link) =>
-		link.addEventListener('click', () => closeMenu(false)),
-	);
-
+	// Registered once. `document` and `window` survive page swaps, so binding
+	// these per navigation would stack duplicate listeners.
 	document.addEventListener('keydown', (event) => {
 		if (event.key === 'Escape' && isOpen()) closeMenu();
 	});
-
-	// Never leave the panel open once the desktop nav takes over.
 	window.matchMedia('(min-width: 841px)').addEventListener('change', (event) => {
+		// Never leave the panel open once the desktop nav takes over.
 		if (event.matches && isOpen()) closeMenu(false);
+	});
+
+	// Torn down before each re-init so scroll/observer callbacks never point at
+	// elements from a previous page.
+	let teardownQuoteBar: (() => void) | null = null;
+
+	function initQuoteBar() {
+		const bar = document.getElementById('quote-bar');
+		const closeBtn = document.getElementById('quote-bar-close');
+		const footer = document.querySelector('footer');
+		if (!bar || !closeBtn) return null;
+
+		if (sessionStorage.getItem('quote-bar-dismissed') === '1') {
+			bar.remove();
+			return null;
+		}
+
+		let footerVisible = false;
+		const update = () => {
+			bar.dataset.visible = String(window.scrollY > 400 && !footerVisible);
+		};
+
+		// Yield the bottom of the screen once the footer arrives.
+		const observer = new IntersectionObserver((entries) => {
+			footerVisible = entries[0].isIntersecting;
+			update();
+		});
+		if (footer) observer.observe(footer);
+
+		window.addEventListener('scroll', update, { passive: true });
+		update();
+
+		const teardown = () => {
+			window.removeEventListener('scroll', update);
+			observer.disconnect();
+		};
+
+		closeBtn.addEventListener('click', () => {
+			sessionStorage.setItem('quote-bar-dismissed', '1');
+			// Detach first: a queued scroll or observer callback would otherwise
+			// run update() again and pull the bar straight back up.
+			teardown();
+			bar.dataset.visible = 'false';
+		});
+
+		return teardown;
+	}
+
+	// Fires on first load and after every client-side navigation.
+	document.addEventListener('astro:page-load', () => {
+		// A navigation triggered from inside the open panel leaves the scroll
+		// lock set; clear it against the incoming page.
+		root.classList.remove('menu-open');
+		closeMenu(false);
+
+		getToggle()?.addEventListener('click', () =>
+			isOpen() ? closeMenu() : openMenu(),
+		);
+		document
+			.getElementById('menu-close')
+			?.addEventListener('click', () => closeMenu());
+
+		// Any link tap closes the panel — in-page anchors don't navigate.
+		getMenu()
+			?.querySelectorAll('a')
+			.forEach((link) =>
+				link.addEventListener('click', () => closeMenu(false)),
+			);
+
+		teardownQuoteBar?.();
+		teardownQuoteBar = initQuoteBar();
 	});
 </script>
 
@@ -367,13 +457,59 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 		color: #8e9196;
 	}
 
+	/* Sticky mobile quote bar */
+	.quote-bar {
+		display: none;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 40;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+		background: rgba(10, 10, 11, 0.96);
+		backdrop-filter: blur(8px);
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
+		transform: translateY(110%);
+		transition: transform 0.25s ease;
+	}
+	.quote-bar[data-visible='true'] {
+		transform: translateY(0);
+	}
+	.quote-bar-cta {
+		flex: 1;
+		text-align: center;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--color-ink);
+		background: #fff;
+		padding: 0.8rem 1.25rem;
+		border-radius: 999px;
+		text-decoration: none;
+	}
+	.quote-bar-close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		border: none;
+		background: transparent;
+		color: #9fa2a8;
+		cursor: pointer;
+	}
+
 	@media (max-width: 840px) {
 		.desktop-links,
 		.cta {
 			display: none;
 		}
 		.icon-btn,
-		.menu-toggle {
+		.menu-toggle,
+		.quote-bar {
 			display: flex;
 		}
 	}
@@ -389,7 +525,8 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.mobile-menu {
+		.mobile-menu,
+		.quote-bar {
 			transition: none;
 		}
 	}

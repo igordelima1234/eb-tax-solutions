@@ -38,7 +38,7 @@ const values = [
 	</head>
 	<body>
 		<Header />
-		<main>
+		<main id="main-content">
 			<!-- Page header -->
 			<section class="page-header">
 				<div class="container">
@@ -59,6 +59,7 @@ const values = [
 						alt="Evin Basher, founder of EB Tax Solutions"
 						width="1200"
 						height="1800"
+						loading="lazy"
 					/>
 					<div>
 						<h2>Meet Evin Basher: your tax advocate</h2>
@@ -122,6 +123,9 @@ const values = [
 					>
 						Free Tax Quote
 					</a>
+					<p class="cta-note cta-note--light">
+						Takes about 2 minutes · opens in a new tab
+					</p>
 				</div>
 			</section>
 		</main>
@@ -306,6 +310,10 @@ const values = [
 		.cta-band .btn {
 			display: block;
 			text-align: center;
+		}
+		/* Clear the sticky quote bar so the CTA isn't hidden behind it. */
+		.cta-band {
+			padding-bottom: 7rem;
 		}
 	}
 	@media (max-width: 420px) {

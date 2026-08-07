@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import {
 	SITE_TITLE,
 	CONTACT_PHONE,
@@ -29,7 +30,7 @@ const serviceOptions = [
 	</head>
 	<body>
 		<Header />
-		<main>
+		<main id="main-content">
 			<!-- Page header -->
 			<section class="page-header">
 				<div class="container">
@@ -53,23 +54,35 @@ const serviceOptions = [
 							too.
 						</p>
 						<div class="info-item">
-							<p class="info-label">Phone</p>
-							<a href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
+							<span class="info-icon"><Icon name="phone" size={20} /></span>
+							<div>
+								<p class="info-label">Phone</p>
+								<a href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
+							</div>
 						</div>
 						<div class="info-item">
-							<p class="info-label">Email</p>
-							<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+							<span class="info-icon"><Icon name="mail" size={20} /></span>
+							<div>
+								<p class="info-label">Email</p>
+								<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+							</div>
 						</div>
 						<div class="info-item">
-							<p class="info-label">Hours</p>
-							<p class="info-value">{CONTACT_HOURS}</p>
+							<span class="info-icon"><Icon name="clock" size={20} /></span>
+							<div>
+								<p class="info-label">Hours</p>
+								<p class="info-value">{CONTACT_HOURS}</p>
+							</div>
 						</div>
 						<div class="info-item">
-							<p class="info-label">Location</p>
-							<p class="info-value">
-								Serving all 50 US states virtually<br />
-								Mobile notary in the Dallas–Fort Worth area
-							</p>
+							<span class="info-icon"><Icon name="map-pin" size={20} /></span>
+							<div>
+								<p class="info-label">Location</p>
+								<p class="info-value">
+									Serving all 50 US states virtually<br />
+									Mobile notary in the Dallas–Fort Worth area
+								</p>
+							</div>
 						</div>
 					</div>
 
@@ -123,21 +136,32 @@ const serviceOptions = [
 					>
 						Claim Your Free Tax Quote
 					</a>
+					<p class="cta-note cta-note--light">
+						Takes about 2 minutes · opens in a new tab
+					</p>
 				</div>
 			</section>
 		</main>
 		<Footer />
 
 		<script>
-			// Dummy form: no backend is wired up yet. Swallow the submit and
-			// show the success message so the flow can be demoed end to end.
-			const form = document.getElementById('contact-form') as HTMLFormElement;
-			const success = document.getElementById('form-success')!;
-			form.addEventListener('submit', (event) => {
-				event.preventDefault();
-				if (!form.reportValidity()) return;
-				form.reset();
-				success.hidden = false;
+			// Runs on first load and after every client-side navigation. The
+			// listener lives on `document`, which survives page swaps, so the
+			// body re-queries the fresh DOM each time.
+			document.addEventListener('astro:page-load', () => {
+				// Fires on every page, so bail when this isn't the contact page.
+				const form = document.getElementById('contact-form') as HTMLFormElement | null;
+				const success = document.getElementById('form-success');
+				if (!form || !success) return;
+
+				// Dummy form: no backend is wired up yet. Swallow the submit and
+				// show the success message so the flow can be demoed end to end.
+				form.addEventListener('submit', (event) => {
+					event.preventDefault();
+					if (!form.reportValidity()) return;
+					form.reset();
+					success.hidden = false;
+				});
 			});
 		</script>
 	</body>
@@ -205,8 +229,23 @@ const serviceOptions = [
 		margin-bottom: 2.5rem;
 	}
 	.info-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
 		padding: 1.25rem 0;
 		border-top: 1px solid var(--color-line);
+	}
+	.info-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 999px;
+		background: var(--color-surface);
+		border: 1px solid var(--color-line);
+		color: var(--color-ink);
 	}
 	.info-label {
 		font-size: 0.8rem;
@@ -276,6 +315,9 @@ const serviceOptions = [
 	}
 	.btn {
 		display: inline-block;
+		/* Anchors don't get border-box from the UA stylesheet the way form
+		   controls do, so width:100% below would add the padding on top. */
+		box-sizing: border-box;
 		font-size: 1rem;
 		font-weight: 700;
 		border: none;
@@ -385,6 +427,10 @@ const serviceOptions = [
 			display: block;
 			width: 100%;
 			text-align: center;
+		}
+		/* Clear the sticky quote bar so the CTA isn't hidden behind it. */
+		.cta-band {
+			padding-bottom: 7rem;
 		}
 	}
 	@media (max-width: 420px) {

@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import {
 	SITE_TITLE,
 	SITE_DESCRIPTION,
@@ -14,10 +15,16 @@ import {
 } from '../consts';
 
 const highlights = [
-	'5 Years of Excellence',
 	'Expert Guidance',
 	'Personalized Solutions',
 	'Proactive Approach',
+];
+
+// Figures drawn from claims already made elsewhere on the site.
+const stats = [
+	{ figure: '5+', label: 'Years of Excellence' },
+	{ figure: '50', label: 'States Served' },
+	{ figure: 'Free', label: 'Quotes & Consultations' },
 ];
 
 const values = [
@@ -46,6 +53,7 @@ const services = [
 		cta: 'Start Your Return',
 		href: TAX_PREP_URL,
 		external: true,
+		icon: 'file-text' as const,
 	},
 	{
 		title: 'Business Formation Services',
@@ -54,6 +62,7 @@ const services = [
 		cta: 'Launch Your Business',
 		href: BUSINESS_FORMATION_URL,
 		external: true,
+		icon: 'briefcase' as const,
 	},
 	{
 		title: 'Mobile Notary Services',
@@ -62,6 +71,16 @@ const services = [
 		cta: 'Call Us Now',
 		href: CONTACT_PHONE_HREF,
 		external: false,
+		icon: 'stamp' as const,
+	},
+];
+
+const testimonials = [
+	{
+		quote:
+			'It’s my first year using EB Tax Solutions and I have to say I am very impressed and satisfied with my service. Evin was very professional and made sure I received every tax deduction I deserved. Also the process and application was easy to understand; communication was 10/10 and very flexible appointment times. I highly recommend them for your tax needs. I will definitely use their services in the future!',
+		name: 'Brandy Gross',
+		role: 'Individual Tax Client',
 	},
 ];
 
@@ -110,7 +129,7 @@ const resources = [
 	</head>
 	<body>
 		<Header />
-		<main>
+		<main id="main-content">
 			<!-- Hero -->
 			<section class="hero">
 				<div class="container hero-grid">
@@ -135,6 +154,9 @@ const resources = [
 							</a>
 							<a class="btn btn-ghost" href="#services">Our services</a>
 						</div>
+						<p class="cta-note cta-note--light hero-note">
+							Takes about 2 minutes · opens in a new tab
+						</p>
 						<ul class="hero-points">
 							{highlights.map((item) => <li>{item}</li>)}
 						</ul>
@@ -145,8 +167,26 @@ const resources = [
 							alt="Evin Basher, founder of EB Tax Solutions"
 							width="1200"
 							height="1800"
+							loading="eager"
+							fetchpriority="high"
 						/>
 					</div>
+				</div>
+			</section>
+
+			<!-- Trust signals -->
+			<section class="stats-band" aria-label="At a glance">
+				<div class="container">
+					<dl class="stat-grid">
+						{
+							stats.map((stat) => (
+								<div class="stat">
+									<dt class="stat-figure">{stat.figure}</dt>
+									<dd class="stat-label">{stat.label}</dd>
+								</div>
+							))
+						}
+					</dl>
 				</div>
 			</section>
 
@@ -176,13 +216,14 @@ const resources = [
 						</p>
 					</div>
 					<aside class="welcome-card">
-						<p class="card-label">Contact us today</p>
+						<p class="card-label">Prefer to talk first?</p>
 						<p class="card-title">Our team will reach out to you.</p>
 						<p class="card-copy">
 							Tell us a little about your situation and we’ll follow up with
 							exactly how we can help.
 						</p>
 						<a class="btn btn-dark" href="/contact">Contact us</a>
+						<p class="cta-note">We’ll get back to you within one business day</p>
 					</aside>
 				</div>
 			</section>
@@ -217,9 +258,14 @@ const resources = [
 						{
 							services.map((service, i) => (
 								<article class="service-card">
-									<span class="service-index">
-										{String(i + 1).padStart(2, '0')}
-									</span>
+									<div class="service-head">
+										<span class="service-badge">
+											<Icon name={service.icon} size={22} />
+										</span>
+										<span class="service-index">
+											{String(i + 1).padStart(2, '0')}
+										</span>
+									</div>
 									<h3>{service.title}</h3>
 									<p>{service.description}</p>
 									<a
@@ -243,6 +289,9 @@ const resources = [
 						>
 							Free Tax Quote
 						</a>
+						<p class="cta-note">
+							Takes about 2 minutes · opens in a new tab
+						</p>
 					</div>
 				</div>
 			</section>
@@ -256,6 +305,7 @@ const resources = [
 							alt="Evin Basher, founder of EB Tax Solutions"
 							width="1200"
 							height="1800"
+							loading="lazy"
 						/>
 						<figcaption>
 							<span class="name">Evin Basher</span>
@@ -296,18 +346,20 @@ const resources = [
 							in their tax situations.
 						</p>
 					</div>
-					<figure class="quote-card">
-						<blockquote>
-							“It’s my first year using EB Tax Solutions and I have to say I
-							am very impressed and satisfied with my service. Evin was very
-							professional and made sure I received every tax deduction I
-							deserved. Also the process and application was easy to
-							understand; communication was 10/10 and very flexible
-							appointment times. I highly recommend them for your tax needs. I
-							will definitely use their services in the future!”
-						</blockquote>
-						<figcaption>Brandy Gross</figcaption>
-					</figure>
+					<div class="quote-list">
+						{
+							testimonials.map((item) => (
+								<figure class="quote-card">
+									<div class="stars" aria-hidden="true">★★★★★</div>
+									<blockquote>“{item.quote}”</blockquote>
+									<figcaption>
+										<span class="quote-name">{item.name}</span>
+										<span class="quote-role">{item.role}</span>
+									</figcaption>
+								</figure>
+							))
+						}
+					</div>
 				</div>
 			</section>
 
@@ -320,7 +372,10 @@ const resources = [
 						{
 							resources.map((item) => (
 								<details>
-									<summary>{item.question}</summary>
+									<summary>
+										<span>{item.question}</span>
+										<span class="accordion-icon" aria-hidden="true"></span>
+									</summary>
 									<div class="accordion-body">
 										<p>{item.answer}</p>
 										<a href={item.href} target="_blank" rel="noopener">
@@ -358,6 +413,9 @@ const resources = [
 							{CONTACT_EMAIL}
 						</a>
 					</div>
+					<p class="cta-note cta-note--light">
+						The quote form takes about 2 minutes · opens in a new tab
+					</p>
 				</div>
 			</section>
 		</main>
@@ -495,6 +553,39 @@ const resources = [
 		margin-right: 0.6rem;
 		color: #6e7278;
 	}
+	.hero-note {
+		margin: -1.75rem 0 3.5rem;
+	}
+
+	/* Trust signals */
+	.stats-band {
+		background: var(--color-surface);
+		border-bottom: 1px solid var(--color-line);
+		padding: 3rem 0;
+	}
+	.stat-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
+		margin: 0;
+	}
+	.stat {
+		text-align: center;
+	}
+	.stat-figure {
+		font-family: var(--font-display);
+		font-size: clamp(2.25rem, 5vw, 3.25rem);
+		line-height: 1;
+		color: var(--color-ink);
+	}
+	.stat-label {
+		margin: 0.5rem 0 0;
+		font-size: 0.9rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-muted);
+	}
 
 	/* Welcome */
 	.welcome-grid {
@@ -595,12 +686,26 @@ const resources = [
 	.service-card:hover {
 		border-color: var(--color-ink);
 	}
+	.service-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1.25rem;
+	}
+	.service-badge {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 999px;
+		background: var(--color-ink);
+		color: #fff;
+	}
 	.service-index {
-		display: block;
 		font-family: var(--font-display);
 		font-size: 1.1rem;
 		color: #9a9da3;
-		margin-bottom: 1.25rem;
 	}
 	.service-card h3 {
 		font-size: 1.35rem;
@@ -701,11 +806,22 @@ const resources = [
 		font-size: 1.05rem;
 		margin: 0;
 	}
+	.quote-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
 	.quote-card {
 		background: #fff;
 		border-radius: 16px;
 		padding: 2.5rem;
 		margin: 0;
+	}
+	.stars {
+		font-size: 1.1rem;
+		letter-spacing: 0.15em;
+		color: var(--color-ink);
+		margin-bottom: 1.25rem;
 	}
 	.quote-card blockquote {
 		border: none;
@@ -716,9 +832,17 @@ const resources = [
 		color: var(--color-body);
 	}
 	.quote-card figcaption {
+		display: flex;
+		flex-direction: column;
+	}
+	.quote-name {
 		font-family: var(--font-display);
 		font-size: 1.2rem;
 		color: var(--color-ink);
+	}
+	.quote-role {
+		font-size: 0.9rem;
+		color: var(--color-muted);
 	}
 
 	/* Resources */
@@ -733,11 +857,50 @@ const resources = [
 		background: var(--color-surface);
 	}
 	.accordion summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
 		cursor: pointer;
 		font-weight: 700;
 		color: var(--color-ink);
 		padding: 1.1rem 1.4rem;
-		list-style-position: inside;
+		/* Replace the browser's default triangle with the custom icon below. */
+		list-style: none;
+	}
+	.accordion summary::-webkit-details-marker {
+		display: none;
+	}
+	.accordion-icon {
+		position: relative;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		transition: transform 0.2s ease;
+	}
+	/* Two bars forming a plus, rotated into an x when the panel opens. */
+	.accordion-icon::before,
+	.accordion-icon::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		margin-top: -1px;
+		border-radius: 2px;
+		background: var(--color-ink);
+	}
+	.accordion-icon::after {
+		transform: rotate(90deg);
+	}
+	.accordion details[open] .accordion-icon {
+		transform: rotate(45deg);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.accordion-icon {
+			transition: none;
+		}
 	}
 	.accordion-body {
 		padding: 0 1.4rem 1.25rem;
@@ -802,6 +965,23 @@ const resources = [
 		.contact,
 		.values-band {
 			padding: 3.5rem 0;
+		}
+		.stats-band {
+			padding: 2.25rem 0;
+		}
+		.stat-grid {
+			gap: 1rem;
+		}
+		.stat-label {
+			font-size: 0.75rem;
+			letter-spacing: 0.06em;
+		}
+		.hero-note {
+			margin: -1.5rem 0 2.5rem;
+		}
+		/* Clear the sticky quote bar so the last CTA isn't hidden behind it. */
+		.contact {
+			padding-bottom: 7rem;
 		}
 		.container {
 			padding: 0 1.25rem;
