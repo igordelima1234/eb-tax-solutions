@@ -2,8 +2,6 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = "EB Tax Solutions";
-export const SITE_DESCRIPTION =
-	"Enjoy expert tax services in all 50 US states, personalized just for you. Tax preparation, business formation, and mobile notary services from EB Tax Solutions.";
 
 // Contact details used across the site. Update these in one place.
 export const CONTACT_PHONE = "(817) 527-1245";

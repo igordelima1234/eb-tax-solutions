@@ -4,8 +4,6 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import {
-	SITE_TITLE,
-	SITE_DESCRIPTION,
 	CONTACT_PHONE,
 	CONTACT_PHONE_HREF,
 	CONTACT_EMAIL,
@@ -125,7 +123,10 @@ const resources = [
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead
+			title="Tax Preparation & Business Services | EB Tax Solutions"
+			description="EB Tax Solutions offers virtual tax preparation and business formation nationwide, plus mobile notary service in Dallas–Fort Worth. Get your free tax quote today."
+		/>
 	</head>
 	<body>
 		<Header />

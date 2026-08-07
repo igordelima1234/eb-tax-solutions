@@ -26,14 +26,33 @@ const values = [
 			'We’re dedicated to giving individuals and businesses the knowledge and tools they need to navigate the complexities of the tax landscape.',
 	},
 ];
+
+// This page is specifically about Evin, so it gets its own Person entity in
+// addition to the sitewide AccountingService schema in BaseHead.
+const personSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Evin Basher',
+	jobTitle: 'Founder',
+	worksFor: {
+		'@type': 'AccountingService',
+		name: SITE_TITLE,
+	},
+	url: new URL('/about', Astro.site).toString(),
+};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead
-			title={`About Evin Basher | ${SITE_TITLE}`}
-			description="Meet Evin Basher, the tax professional behind EB Tax Solutions — serving individuals and small businesses across the Dallas–Fort Worth area."
+			title="Meet Evin Basher, Founder & Tax Advocate | EB Tax Solutions"
+			description="Meet Evin Basher, founder of EB Tax Solutions. Learn about his mission to bring professionalism and education back to tax preparation for clients nationwide."
+		/>
+		<script
+			type="application/ld+json"
+			is:inline
+			set:html={JSON.stringify(personSchema)}
 		/>
 	</head>
 	<body>
