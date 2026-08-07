@@ -5,6 +5,7 @@ import {
 	CONTACT_PHONE_HREF,
 	CONTACT_EMAIL,
 	CONTACT_HOURS,
+	QUOTE_URL,
 } from '../consts';
 
 const navLinks = [
@@ -106,7 +107,9 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 	</nav>
 
 	<div class="menu-footer">
-		<a class="menu-cta" href="/contact">Get started</a>
+		<a class="menu-cta" href={QUOTE_URL} target="_blank" rel="noopener">
+			Free Tax Quote
+		</a>
 		<div class="menu-contact">
 			<a href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</a>
 			<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>

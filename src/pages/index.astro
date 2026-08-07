@@ -8,13 +8,16 @@ import {
 	CONTACT_PHONE,
 	CONTACT_PHONE_HREF,
 	CONTACT_EMAIL,
+	QUOTE_URL,
+	TAX_PREP_URL,
+	BUSINESS_FORMATION_URL,
 } from '../consts';
 
 const highlights = [
+	'5 Years of Excellence',
 	'Expert Guidance',
 	'Personalized Solutions',
 	'Proactive Approach',
-	'Exceptional Customer Service',
 ];
 
 const values = [
@@ -40,20 +43,35 @@ const services = [
 		title: 'Virtual & Mobile Tax Return Preparation',
 		description:
 			'Whether you’re an individual taxpayer or a business owner, our experienced team offers convenient virtual and mobile tax preparation services tailored to your needs.',
+		cta: 'Start Your Return',
+		href: TAX_PREP_URL,
+		external: true,
 	},
 	{
 		title: 'Business Formation Services',
 		description:
 			'From consultation to EIN assistance and virtual address setup, we provide comprehensive support to help your business get off the ground with confidence.',
+		cta: 'Launch Your Business',
+		href: BUSINESS_FORMATION_URL,
+		external: true,
 	},
 	{
 		title: 'Mobile Notary Services',
 		description:
 			'Serving the Dallas–Fort Worth area, our mobile notary services ensure your important documents are properly authenticated when and where you need them.',
+		cta: 'Call Us Now',
+		href: CONTACT_PHONE_HREF,
+		external: false,
 	},
 ];
 
 const resources = [
+	{
+		question: 'Need to file a past year return beginning tax year 2021?',
+		answer: 'Please follow this link for more information.',
+		linkLabel: 'File a past year return',
+		href: TAX_PREP_URL,
+	},
 	{
 		question: 'Where can I get the status of my refund?',
 		answer:
@@ -107,7 +125,14 @@ const resources = [
 							for you.
 						</p>
 						<div class="hero-actions">
-							<a class="btn btn-light" href="/contact">Get started</a>
+							<a
+								class="btn btn-light"
+								href={QUOTE_URL}
+								target="_blank"
+								rel="noopener"
+							>
+								Free Tax Quote
+							</a>
 							<a class="btn btn-ghost" href="#services">Our services</a>
 						</div>
 						<ul class="hero-points">
@@ -130,7 +155,10 @@ const resources = [
 				<div class="container welcome-grid">
 					<div>
 						<p class="eyebrow dark">Welcome to EB Tax Solutions</p>
-						<h2>We will provide the best tax service for your business.</h2>
+						<h2>
+							We provide exceptional tax services for individuals, families,
+							and businesses.
+						</h2>
 						<p>
 							At EB Tax Solutions, we’re more than just a tax preparation
 							firm. We’re dedicated to empowering individuals and businesses
@@ -194,9 +222,27 @@ const resources = [
 									</span>
 									<h3>{service.title}</h3>
 									<p>{service.description}</p>
+									<a
+										class="service-cta"
+										href={service.href}
+										target={service.external ? '_blank' : undefined}
+										rel={service.external ? 'noopener' : undefined}
+									>
+										{service.cta}
+									</a>
 								</article>
 							))
 						}
+					</div>
+					<div class="services-footer">
+						<a
+							class="btn btn-dark"
+							href={QUOTE_URL}
+							target="_blank"
+							rel="noopener"
+						>
+							Free Tax Quote
+						</a>
 					</div>
 				</div>
 			</section>
@@ -297,7 +343,14 @@ const resources = [
 						experience the difference expertise and dedication can make.
 					</p>
 					<div class="contact-actions">
-						<a class="btn btn-light" href="/contact">Get started</a>
+						<a
+							class="btn btn-light"
+							href={QUOTE_URL}
+							target="_blank"
+							rel="noopener"
+						>
+							Free Tax Quote
+						</a>
 						<a class="btn btn-ghost" href={CONTACT_PHONE_HREF}>
 							Call {CONTACT_PHONE}
 						</a>
@@ -556,7 +609,34 @@ const resources = [
 	.service-card p {
 		font-size: 0.98rem;
 		color: var(--color-muted);
-		margin: 0;
+		margin: 0 0 1.5rem;
+	}
+	/* Push the CTA to the bottom so cards of differing length stay aligned. */
+	.service-card {
+		display: flex;
+		flex-direction: column;
+	}
+	.service-card p:last-of-type {
+		flex-grow: 1;
+	}
+	.service-cta {
+		align-self: flex-start;
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: var(--color-ink);
+		text-decoration: none;
+		border-bottom: 2px solid var(--color-ink);
+		padding-bottom: 2px;
+	}
+	.service-cta::after {
+		content: ' →';
+	}
+	.service-cta:hover {
+		color: var(--color-muted);
+		border-bottom-color: var(--color-muted);
+	}
+	.services-footer {
+		margin-top: 2.5rem;
 	}
 
 	/* About */

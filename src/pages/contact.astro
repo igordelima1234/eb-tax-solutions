@@ -8,6 +8,7 @@ import {
 	CONTACT_PHONE_HREF,
 	CONTACT_EMAIL,
 	CONTACT_HOURS,
+	QUOTE_URL,
 } from '../consts';
 
 const serviceOptions = [
@@ -103,6 +104,25 @@ const serviceOptions = [
 							within one business day.
 						</p>
 					</form>
+				</div>
+			</section>
+
+			<!-- CTA -->
+			<section class="cta-band">
+				<div class="container">
+					<h2>Ready to take control of your taxes and financial future?</h2>
+					<p class="cta-lede">
+						Prefer to skip the form? Start your quote request directly and
+						we’ll take it from there.
+					</p>
+					<a
+						class="btn btn-light"
+						href={QUOTE_URL}
+						target="_blank"
+						rel="noopener"
+					>
+						Claim Your Free Tax Quote
+					</a>
 				</div>
 			</section>
 		</main>
@@ -272,6 +292,34 @@ const serviceOptions = [
 	.btn-dark:hover {
 		background: #2a2b2e;
 	}
+	.btn-light {
+		background: #fff;
+		color: var(--color-ink);
+	}
+	.btn-light:hover {
+		background: #d9dadd;
+	}
+
+	/* Bottom CTA band */
+	.cta-band {
+		background: var(--color-ink);
+		color: #c7c9cc;
+		text-align: center;
+		padding: 6rem 0;
+	}
+	.cta-band h2 {
+		font-size: clamp(2rem, 4vw, 2.75rem);
+		color: #fff;
+		margin-bottom: 1rem;
+		max-width: 40rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.cta-lede {
+		max-width: 34rem;
+		margin: 0 auto 2rem;
+		font-size: 1.1rem;
+	}
 	.form-success {
 		margin: 1.25rem 0 0;
 		padding: 0.9rem 1.1rem;
@@ -290,8 +338,15 @@ const serviceOptions = [
 	}
 	@media (max-width: 720px) {
 		.contact-body,
-		.page-header {
+		.page-header,
+		.cta-band {
 			padding: 3.5rem 0;
+		}
+		.cta-band h2 {
+			font-size: 1.85rem;
+		}
+		.cta-lede {
+			font-size: 1.05rem;
 		}
 		.container {
 			padding: 0 1.25rem;
