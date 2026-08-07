@@ -13,7 +13,13 @@ const today = new Date();
 <footer>
 	<div class="footer-inner">
 		<div class="brand">
-			<p class="wordmark">{SITE_TITLE}</p>
+			<img
+				class="footer-logo"
+				src="/images/logo-white.png"
+				alt={SITE_TITLE}
+				width="456"
+				height="202"
+			/>
 			<p class="tagline">
 				Enjoy expert tax services in all 50 US states, personalized just for
 				you.
@@ -50,11 +56,12 @@ const today = new Date();
 		max-width: 72rem;
 		margin: 0 auto;
 	}
-	.wordmark {
-		font-family: var(--font-display);
-		font-size: 1.5rem;
-		color: #fff;
-		margin: 0 0 0.75rem;
+	.footer-logo {
+		display: block;
+		height: 3.25rem;
+		width: auto;
+		border-radius: 0;
+		margin: 0 0 1rem;
 	}
 	.tagline {
 		font-size: 0.95rem;

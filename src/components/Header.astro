@@ -21,7 +21,14 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 
 <header>
 	<nav class="bar" aria-label="Main">
-		<a class="wordmark" href="/">{SITE_TITLE}</a>
+		<a class="wordmark" href="/">
+			<img
+				src="/images/logo-dark.png"
+				alt={SITE_TITLE}
+				width="456"
+				height="202"
+			/>
+		</a>
 
 		<div class="desktop-links">
 			{
@@ -66,7 +73,14 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 	 makes it a containing block, which would trap this fixed panel inside it. -->
 <div class="mobile-menu" id="mobile-menu" data-open="false" inert>
 	<div class="menu-top">
-		<span class="wordmark menu-wordmark">{SITE_TITLE}</span>
+		<a class="wordmark menu-wordmark" href="/">
+			<img
+				src="/images/logo-white.png"
+				alt={SITE_TITLE}
+				width="456"
+				height="202"
+			/>
+		</a>
 		<button class="menu-close" id="menu-close" type="button">
 			<span class="sr-only">Close menu</span>
 			<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
@@ -168,15 +182,17 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 		height: 4.25rem;
 	}
 	.wordmark {
-		font-family: var(--font-display);
-		font-size: 1.35rem;
-		color: var(--color-ink);
-		text-decoration: none;
-		white-space: nowrap;
 		/* Fill the bar height so the tap area matches the other controls. */
 		display: flex;
 		align-items: center;
 		align-self: stretch;
+		text-decoration: none;
+	}
+	.wordmark img {
+		display: block;
+		height: 3rem;
+		width: auto;
+		border-radius: 0;
 	}
 	.desktop-links {
 		display: flex;
@@ -282,8 +298,8 @@ const isCurrent = (href: string) => href.startsWith('/#') === false && href.repl
 		height: 4.25rem;
 		flex-shrink: 0;
 	}
-	.menu-wordmark {
-		color: #fff;
+	.menu-wordmark img {
+		height: 2.75rem;
 	}
 	.menu-close {
 		display: flex;
