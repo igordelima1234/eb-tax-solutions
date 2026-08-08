@@ -1,0 +1,65 @@
+---
+// Drives the subtle fade/rise-in effect for elements marked `.reveal`
+// (styles live in global.css). Rendered once from BaseHead so it's on
+// every page automatically.
+---
+
+<script is:inline>
+	// Classic synchronous inline script: runs during head parsing, before the
+	// body paints, so `.reveal` elements are never visibly hidden for no-JS
+	// visitors — see the `.js`-scoped rule in global.css that depends on this.
+	document.documentElement.classList.remove('no-js');
+	document.documentElement.classList.add('js');
+</script>
+
+<script>
+	// Each page's own markup starts with <html class="no-js">, and Astro's
+	// view transitions re-apply the incoming page's attributes to <html>
+	// during the swap — silently undoing the is:inline script above on every
+	// navigation after the first. `astro:after-swap` fires post-swap but
+	// pre-paint, so reapplying here causes no visible flash.
+	document.addEventListener('astro:after-swap', () => {
+		document.documentElement.classList.remove('no-js');
+		document.documentElement.classList.add('js');
+	});
+
+	// Persists across client-side navigations (this module only executes
+	// once; the listener below re-fires and reuses this closure each time).
+	let observer: IntersectionObserver | undefined;
+
+	// Fires on first load and after every view transition, so newly
+	// swapped-in page content gets observed too.
+	document.addEventListener('astro:page-load', () => {
+		try {
+			observer?.disconnect();
+
+			const targets = document.querySelectorAll<HTMLElement>(
+				'.reveal:not(.is-visible)',
+			);
+			if (targets.length === 0) return;
+
+			if (!('IntersectionObserver' in window)) {
+				targets.forEach((el) => el.classList.add('is-visible'));
+				return;
+			}
+
+			const io = new IntersectionObserver(
+				(entries, obs) => {
+					entries.forEach((entry) => {
+						if (!entry.isIntersecting) return;
+						entry.target.classList.add('is-visible');
+						obs.unobserve(entry.target);
+					});
+				},
+				{ threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+			);
+			targets.forEach((el) => io.observe(el));
+			observer = io;
+		} catch {
+			// Never let a bug here leave real content permanently invisible.
+			document
+				.querySelectorAll('.reveal')
+				.forEach((el) => el.classList.add('is-visible'));
+		}
+	});
+</script>

@@ -196,6 +196,41 @@ hr {
 	}
 }
 
+/*
+  Scroll reveal: a subtle fade + slight rise as elements enter the viewport.
+  The hidden state only applies once ScrollReveal.astro's inline script has
+  confirmed it can reveal them again (via the `.js` class on <html>), so
+  no-JS visitors and unsupported browsers always see content immediately.
+*/
+.js .reveal {
+	opacity: 0;
+	transform: translateY(14px);
+	transition:
+		opacity 0.6s ease,
+		transform 0.6s ease;
+}
+.js .reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+/* Light stagger for grids of cards, applied via reveal-2/3/4. */
+.reveal-2 {
+	transition-delay: 0.08s;
+}
+.reveal-3 {
+	transition-delay: 0.16s;
+}
+.reveal-4 {
+	transition-delay: 0.24s;
+}
+@media (prefers-reduced-motion: reduce) {
+	.js .reveal {
+		transition: none;
+		opacity: 1;
+		transform: none;
+	}
+}
+
 /* Keyboard users land here first, ahead of the header and menu button. */
 .skip-link {
 	position: fixed;

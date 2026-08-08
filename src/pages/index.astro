@@ -121,7 +121,7 @@ const resources = [
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 	<head>
 		<BaseHead
 			title="Tax Preparation & Business Services | EB Tax Solutions"
@@ -175,7 +175,7 @@ const resources = [
 			<!-- Trust signals -->
 			<section class="stats-band" aria-label="At a glance">
 				<div class="container">
-					<dl class="stat-grid">
+					<dl class="stat-grid reveal">
 						{
 							stats.map((stat) => (
 								<div class="stat">
@@ -191,7 +191,7 @@ const resources = [
 			<!-- Welcome -->
 			<section class="welcome" id="welcome">
 				<div class="container welcome-grid">
-					<div>
+					<div class="reveal">
 						<p class="eyebrow dark">Welcome to EB Tax Solutions</p>
 						<h2>
 							We provide exceptional tax services for individuals, families,
@@ -213,7 +213,7 @@ const resources = [
 							<span>Founder, EB Tax Solutions</span>
 						</p>
 					</div>
-					<aside class="welcome-card">
+					<aside class="welcome-card reveal reveal-2">
 						<p class="card-label">Prefer to talk first?</p>
 						<p class="card-title">Our team will reach out to you.</p>
 						<p class="card-copy">
@@ -230,8 +230,8 @@ const resources = [
 				<div class="container">
 					<div class="value-grid">
 						{
-							values.map((value) => (
-								<article class="value-card">
+							values.map((value, i) => (
+								<article class={`value-card reveal reveal-${i + 1}`}>
 									<h3>{value.title}</h3>
 									<p>{value.description}</p>
 								</article>
@@ -254,7 +254,7 @@ const resources = [
 					<div class="service-grid">
 						{
 							services.map((service, i) => (
-								<article class="service-card">
+								<article class={`service-card reveal reveal-${i + 1}`}>
 									<div class="service-head">
 										<span class="service-badge">
 											<Icon name={service.icon} size={22} />
@@ -293,7 +293,7 @@ const resources = [
 			<!-- Meet Evin -->
 			<section class="about" id="about">
 				<div class="container about-grid">
-					<figure class="about-photo">
+					<figure class="about-photo reveal">
 						<img
 							src="/images/evin-portrait.jpg"
 							alt="Evin Basher, founder of EB Tax Solutions"
@@ -306,7 +306,7 @@ const resources = [
 							<span class="role">Founder, EB Tax Solutions</span>
 						</figcaption>
 					</figure>
-					<div>
+					<div class="reveal reveal-2">
 						<p class="eyebrow dark">Your tax expert</p>
 						<h2>Meet Evin Basher: your tax advocate</h2>
 						<p>
@@ -329,7 +329,7 @@ const resources = [
 			<!-- Testimonial -->
 			<section class="testimonial">
 				<div class="container testimonial-grid">
-					<div>
+					<div class="reveal">
 						<p class="eyebrow">Testimonials</p>
 						<h2>What our clients say</h2>
 						<p class="testimonial-copy">
@@ -340,7 +340,7 @@ const resources = [
 							in their tax situations.
 						</p>
 					</div>
-					<div class="quote-list">
+					<div class="quote-list reveal reveal-2">
 						{
 							testimonials.map((item) => (
 								<figure class="quote-card">
@@ -362,7 +362,7 @@ const resources = [
 				<div class="container">
 					<p class="eyebrow dark">Resources</p>
 					<h2>Useful links &amp; information</h2>
-					<div class="accordion">
+					<div class="accordion reveal">
 						{
 							resources.map((item) => (
 								<details>
@@ -385,7 +385,7 @@ const resources = [
 
 			<!-- Contact / CTA -->
 			<section class="contact" id="contact">
-				<div class="container">
+				<div class="container reveal">
 					<h2>Ready to take control of your taxes and financial future?</h2>
 					<p class="contact-lede">
 						Contact EB Tax Solutions today to schedule your consultation and

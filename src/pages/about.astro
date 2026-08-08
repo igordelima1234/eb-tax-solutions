@@ -43,7 +43,7 @@ const personSchema = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 	<head>
 		<BaseHead
 			title="Meet Evin Basher, Founder & Tax Advocate | EB Tax Solutions"
@@ -73,14 +73,14 @@ const personSchema = {
 			<section class="bio">
 				<div class="container bio-grid">
 					<img
-						class="bio-photo"
+						class="bio-photo reveal"
 						src="/images/evin-standing.jpg"
 						alt="Evin Basher, founder of EB Tax Solutions"
 						width="1200"
 						height="1800"
 						loading="lazy"
 					/>
-					<div>
+					<div class="reveal reveal-2">
 						<h2>Meet Evin Basher: your tax advocate</h2>
 						<p>
 							Evin Basher, the founder of EB Tax Solutions, brings a passion
@@ -115,8 +115,8 @@ const personSchema = {
 					<h2>What you can expect</h2>
 					<div class="value-grid">
 						{
-							values.map((value) => (
-								<article class="value-card">
+							values.map((value, i) => (
+								<article class={`value-card reveal reveal-${i + 1}`}>
 									<h3>{value.title}</h3>
 									<p>{value.description}</p>
 								</article>
@@ -128,7 +128,7 @@ const personSchema = {
 
 			<!-- CTA -->
 			<section class="cta-band">
-				<div class="container">
+				<div class="container reveal">
 					<h2>Ready to take control of your taxes and financial future?</h2>
 					<p class="cta-lede">
 						Contact EB Tax Solutions today to schedule your consultation and
