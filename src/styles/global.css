@@ -217,16 +217,6 @@ hr {
 	transform: translateY(0);
 }
 
-/* Supporting text under a button, clarifying where it leads. */
-.cta-note {
-	font-size: 0.85rem;
-	color: var(--color-muted);
-	margin: 0.75rem 0 0;
-}
-.cta-note--light {
-	color: #9fa2a8;
-}
-
 .sr-only {
 	border: 0;
 	padding: 0;
